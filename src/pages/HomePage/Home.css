@@ -1,0 +1,68 @@
+.homePageStyle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Konumlandırmayı kontrol etmek için */
+  }
+  
+  .movieCardsContainer {
+    display: flex;
+    overflow: hidden; /* Taşan içeriği gizler */
+    width: 100%; /* Kartların genişliği */
+  }
+  
+  .navButtonContainer {
+    position: absolute; /* Butonların konumunu kontrol et */
+    top: 50%; /* Yatayda ortala */
+    transform: translateY(-50%); /* Dikeyde tam ortala */
+    z-index: 1; /* Diğer içeriklerin üstünde görünmesini sağla */
+  }
+  .chevron{
+    font-size: 14px;
+  }
+  .navButtonContainer:first-child {
+    left: 10px; /* Sol buton için konum */
+  }
+  
+  .navButtonContainer:last-child {
+    right: 10px; /* Sağ buton için konum */
+  }
+  
+  .navButton {
+    background: rgba(0, 0, 0, 0.8); /* Siyah transparan arka plan (glassmorphism) */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Yuvarlak butonlar için */
+    font-size: 24px;
+    width: 40px; /* Buton genişliği */
+    height: 40px; /* Buton yüksekliği */
+    display: flex; /* İçeriği ortalamak için */
+    align-items: center; /* Dikeyde ortala */
+    justify-content: center; /* Yatayda ortala */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Hover geçişi için */
+  }
+  
+  .navButton:hover {
+    background-color: red; /* Hover durumu için arka plan rengi */
+    color: white; /* Hover durumunda ikon rengi */
+  }
+  
+  .navButton:disabled {
+    visibility: hidden;
+    opacity: 0.5;
+  }
+  
+
+  .navButton:before {
+  
+    color: white; /* İkon rengi */
+    font-size: 24px; /* İkon boyutu */
+  }
+  .movieCardsContainer {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    transition: transform 0.5s ease; /* Kaydırma animasyonu için geçiş ekle */
+  }
+  

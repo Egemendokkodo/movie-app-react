@@ -31,7 +31,7 @@ export const Navbar = () => {
                     <li><Link to="/movies"><p>Movies</p></Link></li>
 
                     <li onClick={toggleYearDropdown} className="by-year">
-                        {/* By Year metni ve ikon aynı satırda olacak */}
+                        
                         <p>
                             By Year
                             <span className='byYearChevron'>
