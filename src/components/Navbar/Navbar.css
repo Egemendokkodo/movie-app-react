@@ -1,0 +1,315 @@
+ul {
+    list-style: none;
+    /* Noktaları gizle */
+    padding: 10px 20px;
+    /* Varsayılan padding'i kaldır */
+    display: flex;
+    /* Flexbox kullanarak hizalama */
+    align-items: center;
+    /* Dikey olarak ortala */
+    justify-content: space-between;
+    /* Elemanları sağa sola yayarak yerleştir */
+}
+
+.logo-container {
+    display: flex;
+    /* Logo ve metni yan yana yerleştir */
+    align-items: center;
+    /* Dikey olarak ortala */
+}
+
+.menu-items {
+    display: flex;
+    /* Menü öğelerini yan yana yerleştir */
+    align-items: center;
+    /* Dikey olarak ortala */
+}
+
+
+img {
+    width: 30px;
+    /* İkon boyutu */
+    height: auto;
+    /* Orantılı boyutlandırma */
+    vertical-align: top;
+    /* Dikey hizalama */
+    margin-right: 8px;
+    /* İkon ve yazı arasındaki boşluk */
+}
+
+.appName {
+    font-size: 20px;
+    /* Uygulama adı yazı boyutu */
+    font-weight: bold;
+    /* Yazı kalınlığı */
+    color: white;
+    /* Yazı rengi beyaz */
+    margin-right: 20px;
+}
+
+/* Bağlantılara özel stil */
+a {
+    text-decoration: none;
+    /* Alt çizgiyi kaldır */
+    color: white;
+    /* Varsayılan yazı rengi beyaz */
+}
+
+li p {
+    margin: 0;
+    /* Varsayılan margin'i kaldır */
+    font-size: 16px;
+    /* Yazı boyutu */
+    color: white;
+    /* Yazı rengi beyaz */
+}
+
+/* Seçenekler üzerine gelindiğinde yazı rengini gri yap */
+li a:hover,
+li p:hover {
+    color: gray;
+    /* Üzerine gelindiğinde yazı rengi gri */
+}
+
+.search-container {
+    position: relative;
+    /* İçerik üzerine konumlandırmak için */
+    margin-left: 20px;
+    /* Diğer öğelerden uzaklık */
+    cursor: pointer;
+
+}
+
+.search-icon {
+    position: absolute;
+    /* İkonu input alanının içine konumlandırmak için */
+    left: 10px;
+    /* İkonun soldan uzaklığı */
+    top: 50%;
+    /* İkonu dikeyde ortala */
+    transform: translateY(-50%);
+    /* Dikey ortalamak için */
+    color: #bebebe;
+    /* İkon rengi */
+    font-size: 20px;
+    /* İkon boyutu */
+    pointer-events: none;
+    /* İkon üzerine tıklamayı engelle */
+}
+
+.search-input {
+    cursor: pointer;
+    padding: 10px 20px 10px 40px;
+    /* Sol tarafta ikon için yeterli boşluk bırak */
+    border: none;
+    /* Kenar çizgisini kaldır */
+    border-radius: 25px;
+    /* Yuvarlatılmış köşeler */
+    outline: none;
+    /* Varsayılan odak çerçevesini kaldır */
+    transition: background-color 0.3s;
+    /* Arka plan rengi geçişi */
+    font-size: 16px;
+    /* Yazı boyutu */
+    background-color: #f0f0f0;
+    /* Arka plan rengi */
+    width: 110px;
+
+}
+
+.search-input::placeholder {
+    color: #bebebe;
+    opacity: 1;
+    /* Firefox */
+}
+
+/* Arama alanı üzerine gelindiğinde arka plan rengini değiştirme */
+.search-input:hover {
+    background-color: #e0e0e0;
+    /* Üzerine gelindiğinde arka plan rengi */
+}
+
+/* Arama alanı odaklandığında arka plan rengini değiştirme */
+.search-input:focus {
+    background-color: #ffffff;
+    /* Odaklandığında arka plan rengi */
+}
+
+.rounded-button {
+    background-color: #DC2626;
+    /* Buton rengi */
+    color: white;
+    /* Yazı rengi */
+    padding: 8px 20px;
+    /* İç boşluk */
+    border: none;
+    /* Kenar çizgisi yok */
+    border-radius: 25px;
+    /* Yuvarlatılmış köşeler */
+    display: flex;
+    /* İkon ve metni yan yana hizalamak için */
+    align-items: center;
+    /* Dikey olarak ortala */
+    cursor: pointer;
+    /* İmleci göster */
+    transition: background-color 0.3s;
+    /* Renk geçiş efekti */
+}
+
+.rounded-button:hover {
+    background-color: rgb(179, 2, 2);
+    /* Butonun hover sırasında daha koyu bir kırmızı olması */
+    color: #F9FAFB;
+    /* Yazı renginin hafifçe açık olması */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Hafif gölge efekti */
+}
+
+.icon {
+    margin-right: 8px;
+    /* İkon ve yazı arasındaki boşluk */
+    font-size: 15px;
+    /* İkon boyutu */
+}
+
+.button-text {
+    font-size: 16px;
+    /* Yazı boyutu */
+}
+
+.text-button {
+    background: none;
+    /* Arka plan yok */
+    border: none;
+    /* Kenar çizgisi yok */
+    color: white;
+    /* Yazı rengi beyaz */
+    cursor: pointer;
+    /* İmleci göster */
+    display: flex;
+    /* İkon ve metni yan yana hizalamak için */
+    align-items: center;
+    /* Dikey olarak ortala */
+    font-size: 16px;
+    /* Yazı boyutu */
+    padding: 0;
+    /* İç boşluk yok */
+    margin-left: 20px;
+    /* Diğer öğelerden uzaklık */
+    transition: color 0.3s;
+    /* Renk geçiş efekti */
+    margin-right: 20px;
+}
+
+.text-button:hover {
+    color: gray;
+    /* Üzerine gelindiğinde yazı rengi gri */
+}
+
+.divider {
+    height: 3px;
+    width: 100%;
+    /* Tam genişlikte olmasını sağlar */
+    background-color: crimson;
+    margin: 0;
+    /* Margin yok */
+    padding: 0;
+    /* Padding yok */
+}
+
+.home-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: crimson;
+    /* Varsayılan arka plan rengi */
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.home-icon {
+    color: white;
+    /* Varsayılan simge rengi */
+    font-size: 16px;
+    /* Simge boyutu */
+}
+
+.home-button:hover {
+    background-color: white;
+    /* Hover'da arka plan rengi */
+}
+
+.home-button:hover .home-icon {
+    color: crimson;
+    /* Hover'da simgenin rengi */
+}
+
+/* Ana ul için flex ayarları, dropdown'da geçerli olmayacak şekilde spesifik hale getirildi */
+nav>ul {
+    list-style: none;
+    padding: 2px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Dropdown için spesifik ul ayarları */
+.year-dropdown {
+    position: absolute;
+    top: 130%;
+    left: 0;
+    background-color: black;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+    width: 150px;
+    /* Dropdown genişliği */
+    display: block;
+    /* Flex etkilerini önlemek için block yap */
+}
+
+/* Dropdown list items */
+.year-dropdown li {
+    padding: 7px 0;
+    display: block;
+    /* Her bir öğeyi blok seviyesinde yap */
+    width: 100%;
+    /* Tüm genişliği kullanmasını sağla */
+}
+
+/* Hover state for dropdown items */
+.year-dropdown li:hover {
+    background-color: #18181B;
+}
+
+/* Dropdown links styling */
+.year-dropdown li a {
+    text-decoration: none;
+    display: block;
+    /* Bağlantıları blok seviyesinde yap */
+    padding: 5px 10px;
+    color: white;
+    /* Yazı rengi beyaz */
+    width: 100%;
+    /* Bağlantının tam genişlikte olmasını sağlar */
+}
+
+/* Yıl butonunu flex dışında bırak */
+.by-year {
+    position: relative;
+    cursor: pointer;
+    display: block;
+    /* Butonu blok seviyesinde yap */
+}
+
+.byYearChevron {
+    margin-left: 5px;
+    font-size: 12px;
+}

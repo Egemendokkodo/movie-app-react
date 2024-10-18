@@ -1,5 +1,5 @@
 
-body {
+body{
   background-color: #18181B;
 }
 .App {
@@ -7,18 +7,17 @@ body {
   justify-content: center; 
   align-items: flex-start; 
   box-sizing: border-box;
+  
 }
 
-.box {
+.AppBody {
   background-color: #27272A;
-  width:70%;
-
+  width: 70%;
+  
+  
+  border-radius: 8px; 
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.5), 0 6px 10px rgba(0, 0, 0, 0.3); 
 }
 
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 

@@ -1,14 +1,21 @@
 
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Navbar from './Navbar/Navbar';
+import { Navbar } from './components/Navbar/Navbar';
+import { HomePage } from './pages/HomePage/Home';
+import { DiscoverPage } from './pages/Discover/Discover';
+import { MoviePage } from './pages/MoviePage/MoviePage';
 
 function App() {
   return (
     <div className="App">
-      <div className="box">
-        <h1>SA</h1><br></br><br></br>
-        <h1>AS</h1>
-        
+      <div className="AppBody">
+       <Navbar/>
+        <Routes>
+          <Route path='/' element={<HomePage></HomePage>}></Route>
+          <Route path='/discover' element={<DiscoverPage></DiscoverPage>}></Route>
+          <Route path='/movies' element={<MoviePage></MoviePage>}></Route>
+        </Routes>
       </div>
     </div>
   );
