@@ -5,12 +5,7 @@
     position: relative; /* Konumlandırmayı kontrol etmek için */
   }
   
-  .movieCardsContainer {
-    display: flex;
-    overflow: hidden; /* Taşan içeriği gizler */
-    width: 100%; /* Kartların genişliği */
-  }
-  
+
   .navButtonContainer {
     position: absolute; /* Butonların konumunu kontrol et */
     top: 50%; /* Yatayda ortala */
@@ -66,3 +61,16 @@
     transition: transform 0.5s ease; /* Kaydırma animasyonu için geçiş ekle */
   }
   
+
+  .pageContent{
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .endColumn{
+    padding: 30px 10px ;
+    align-items: center;
+    justify-content: center;
+
+  }

@@ -1,0 +1,49 @@
+
+
+
+  .container{
+    width:75%;
+    padding: 20px 0px ;
+    border-radius: 20px;
+    align-items: start;
+}
+.tab_box{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    padding-left: 15px;
+   
+    position: relative;
+}
+.tab_box .tab_btn.active{
+    color: white;
+    background-color: #18181b;
+    border-radius: 20px ;
+    padding: 15px;font-weight: 600;
+}
+.tab_box .tab_btn{
+    font-size: 14px;
+    font-weight: 400;
+    color: #919191;
+    background: none;
+    border: none;
+    padding: 15px;
+    padding-right: 50px;
+    cursor: pointer;
+}
+.content_box{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px; 
+    padding: 15px;
+}
+
+.content_box .content.active{ 
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px; 
+    width: 30%;
+    
+}
+ 

@@ -11,22 +11,23 @@ const MovieCard = ({
   watchOptions 
 }) => {
   const movieCardStyle = {
-    width: '180px',
-    height: '250px',
     borderRadius: borderRadius || '0px',
     overflow: 'hidden',
     position: 'relative',
-    transition: 'transform 0.3s ease', // Transition for the card
+    transition: 'transform 0.3s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%', // Genişliği %100 yaparak esneklik kazandırıyoruz
+    maxWidth: '200px', // İsteğe bağlı maksimum genişlik
+    height: 'auto', // Yükseklik otomatik
+   
   };
 
   const imageStyle = {
     width: '100%',
-    height: '100%',
+    height: 'auto', // Yüksekliği otomatik yapıyoruz
     objectFit: 'cover',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    transition: 'transform 0.3s ease', // Transition for the image
+    transition: 'transform 0.3s ease',
   };
 
   const overlayStyle = {
@@ -42,6 +43,8 @@ const MovieCard = ({
     padding: '5px 10px',
     justifyContent: 'flex-end',
   };
+
+
 
   const infoStyle = {
     display: 'flex',
@@ -66,10 +69,10 @@ const MovieCard = ({
     <div 
       style={movieCardStyle} 
       onMouseEnter={(e) => {
-        e.currentTarget.querySelector('img').style.transform = 'scale(1.1)'; // Scale up the image
+        e.currentTarget.querySelector('img').style.transform = 'scale(1.1)';
       }} 
       onMouseLeave={(e) => {
-        e.currentTarget.querySelector('img').style.transform = 'scale(1)'; // Scale back down
+        e.currentTarget.querySelector('img').style.transform = 'scale(1)';
       }}
     >
       <img src={image} alt={name} style={imageStyle} />

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import './Home.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { TabBar } from '../../components/TabBar/TabBar';
+import MovieRobotAndMovieRequest from '../../components/MovieRobotAndMovieRequest/MovieRobotAndMovieRequest'
 export const HomePage = () => {
+  
   const movieCards = [
     { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Ters yüz 2", year: 2024, imdbRate: 7.2, commentCount: 0, watchOptions: ["Türkçe Dublaj"] },
     { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 2", year: 2023, imdbRate: 8.0, commentCount: 10, watchOptions: ["Türkçe Dublaj"] },
@@ -35,15 +38,15 @@ export const HomePage = () => {
   };
 
   return (
-    <div className='homePageStyle'>
+    <div>
+      <div className='homePageStyle'>
       <div className='navButtonContainer'>
         <button className='navButton' onClick={handlePrev} disabled={currentIndex === 0}>
           <FaChevronLeft className='chevron'
           ></FaChevronLeft>
         </button>
       </div>
-      <div className='movieCardsContainer'>
-        {movieCards.slice(currentIndex, currentIndex + 6).map((movie, index) => (
+      {movieCards.slice(currentIndex, currentIndex + 6).map((movie, index) => (
           <MovieCard
             key={index}
             commentCount={movie.commentCount}
@@ -54,7 +57,6 @@ export const HomePage = () => {
             watchOptions={movie.watchOptions}
           />
         ))}
-      </div>
       <div className='navButtonContainer'>
         <button className='navButton' onClick={handleNext} disabled={currentIndex >= movieCards.length - 6}>
           <FaChevronRight className='chevron'
@@ -62,6 +64,12 @@ export const HomePage = () => {
         </button>
       </div>
       
+    </div>
+        <div className='pageContent'>
+
+        <TabBar></TabBar>
+        <div className='endColumn'><MovieRobotAndMovieRequest></MovieRobotAndMovieRequest> sasas</div>
+        </div>
     </div>
     
   );
