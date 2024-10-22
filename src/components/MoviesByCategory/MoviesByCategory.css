@@ -1,0 +1,58 @@
+
+.titleCategory {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .titleText {
+    color: white;
+    margin-left: 12px;
+  }
+  
+
+  .tagsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .tagButton {
+    padding: 8px 12px;
+    background-color: #18181B;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .tagButton:hover {
+    background-color: #333;
+    transform: scale(1.05);
+  }
+  
+  
+  .expandContainer {
+    display: flex;
+    justify-content: center; 
+    margin-top: 10px;
+  }
+  
+  /* Chevron stili */
+  .expandToggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .expandToggle:hover {
+    background-color: #18181B;
+
+  }

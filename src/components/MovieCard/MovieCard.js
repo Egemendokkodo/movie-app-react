@@ -17,16 +17,15 @@ const MovieCard = ({
     transition: 'transform 0.3s ease',
     display: 'flex',
     flexDirection: 'column',
-    width: '100%', // Genişliği %100 yaparak esneklik kazandırıyoruz
-    maxWidth: '200px', // İsteğe bağlı maksimum genişlik
-    height: 'auto', // Yükseklik otomatik
-   
+    width: '100%',
+    maxWidth: '200px',
+    height: 'auto',
   };
 
   const imageStyle = {
     width: '100%',
-    height: 'auto', // Yüksekliği otomatik yapıyoruz
-    objectFit: 'cover',
+    height: '300px', 
+    objectFit: 'cover', 
     transition: 'transform 0.3s ease',
   };
 
@@ -44,8 +43,6 @@ const MovieCard = ({
     justifyContent: 'flex-end',
   };
 
-
-
   const infoStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -61,9 +58,11 @@ const MovieCard = ({
 
   const watchOptionStyle = {
     fontSize: '11px',
-    padding: 0,
+    paddingBottom: "10px",
     margin: "0",
   };
+
+  const formattedWatchOptions = watchOptions.map(option => option.name).join(', ');
 
   return (
     <div 
@@ -87,7 +86,7 @@ const MovieCard = ({
           </span>
         </div>
         <b style={movieNameStyle}>{name}</b>
-        <p style={watchOptionStyle}>{watchOptions.join(', ')}</p>
+        <p style={watchOptionStyle}>{formattedWatchOptions}</p> 
       </div>
     </div>
   );

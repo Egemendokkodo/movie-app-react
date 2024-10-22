@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import './Home.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { TabBar } from '../../components/TabBar/TabBar';
-import MovieRobotAndMovieRequest from '../../components/MovieRobotAndMovieRequest/MovieRobotAndMovieRequest'
+import MovieRobotAndMovieRequest from '../../components/MovieRobotAndMovieRequest/MovieRobotAndMovieRequest';
+import { MoviesByCategory } from '../../components/MoviesByCategory/MoviesByCategory';
+
 export const HomePage = () => {
-  
-  const movieCards = [
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Ters yüz 2", year: 2024, imdbRate: 7.2, commentCount: 0, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 2", year: 2023, imdbRate: 8.0, commentCount: 10, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 3", year: 2022, imdbRate: 6.5, commentCount: 5, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 4", year: 2021, imdbRate: 9.0, commentCount: 20, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 5", year: 2020, imdbRate: 7.5, commentCount: 8, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 6", year: 2019, imdbRate: 8.5, commentCount: 12, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 7", year: 2018, imdbRate: 7.9, commentCount: 4, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 8", year: 2017, imdbRate: 6.8, commentCount: 2, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 9", year: 2020, imdbRate: 7.5, commentCount: 8, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 10", year: 2019, imdbRate: 8.5, commentCount: 12, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 11", year: 2018, imdbRate: 7.9, commentCount: 4, watchOptions: ["Türkçe Dublaj"] },
-    { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 12", year: 2017, imdbRate: 6.8, commentCount: 2, watchOptions: ["Türkçe Dublaj"] },
-
-
-  ];
-
+  const [movies, setMovies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  useEffect(() => {
+    fetch('http://localhost:8080/api/movie/get-all-movies?page=1&size=12')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);  // Gelen veriyi inceleyelim
+        if (data.success) {
+          setMovies(data.response.movies);  // movies dizisine verileri atıyoruz
+          console.log("VERILER BAŞARIYLA GELDI");
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const handleNext = () => {
-    if (currentIndex < movieCards.length - 6) {
+    if (currentIndex < movies.length - 6) {
       setCurrentIndex(currentIndex + 6);
     }
   };
@@ -40,37 +40,35 @@ export const HomePage = () => {
   return (
     <div>
       <div className='homePageStyle'>
-      <div className='navButtonContainer'>
-        <button className='navButton' onClick={handlePrev} disabled={currentIndex === 0}>
-          <FaChevronLeft className='chevron'
-          ></FaChevronLeft>
-        </button>
-      </div>
-      {movieCards.slice(currentIndex, currentIndex + 6).map((movie, index) => (
+        <div className='navButtonContainer'>
+          <button className='navButton' onClick={handlePrev} disabled={currentIndex === 0}>
+            <FaChevronLeft className='chevron'></FaChevronLeft>
+          </button>
+        </div>
+        {movies.slice(currentIndex, currentIndex + 6).map((movie, index) => (
           <MovieCard
             key={index}
-            commentCount={movie.commentCount}
-            image={movie.image}
-            imdbRate={movie.imdbRate}
+            commentCount={movie.movieTotalCommentCount}
+            image={movie.movieImage}
+            imdbRate={movie.movieImdbRate}
             name={movie.name}
-            year={movie.year}
+            year={movie.movieReleaseYear}
             watchOptions={movie.watchOptions}
           />
         ))}
-      <div className='navButtonContainer'>
-        <button className='navButton' onClick={handleNext} disabled={currentIndex >= movieCards.length - 6}>
-          <FaChevronRight className='chevron'
-          ></FaChevronRight>
-        </button>
-      </div>
-      
-    </div>
-        <div className='pageContent'>
-
-        <TabBar></TabBar>
-        <div className='endColumn'><MovieRobotAndMovieRequest></MovieRobotAndMovieRequest> sasas</div>
+        <div className='navButtonContainer'>
+          <button className='navButton' onClick={handleNext} disabled={currentIndex >= movies.length - 6}>
+            <FaChevronRight className='chevron'></FaChevronRight>
+          </button>
         </div>
+      </div>
+      <div className='pageContent'>
+        <TabBar></TabBar>
+        <div className='endColumn'>
+          <MovieRobotAndMovieRequest></MovieRobotAndMovieRequest>
+          <MoviesByCategory></MoviesByCategory>
+        </div>
+      </div>
     </div>
-    
   );
 };

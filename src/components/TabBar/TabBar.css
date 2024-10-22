@@ -20,7 +20,8 @@
     color: white;
     background-color: #18181b;
     border-radius: 20px ;
-    padding: 15px;font-weight: 600;
+    padding: 15px;
+    font-weight: 600;
 }
 .tab_box .tab_btn{
     font-size: 14px;
