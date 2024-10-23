@@ -7,8 +7,9 @@ import MovieRobotAndMovieRequest from '../../components/MovieRobotAndMovieReques
 import { MoviesByCategory } from '../../components/MoviesByCategory/MoviesByCategory';
 
 export const HomePage = () => {
-  const [movies, setMovies] = useState([]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:8080/api/movie/get-all-movies?page=1&size=12')

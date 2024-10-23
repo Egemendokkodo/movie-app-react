@@ -8,7 +8,9 @@ const MovieCard = ({
   commentCount, 
   imdbRate, 
   name, 
-  watchOptions 
+  watchOptions,
+  tags,
+  details 
 }) => {
   const movieCardStyle = {
     borderRadius: borderRadius || '0px',

@@ -1,0 +1,36 @@
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Butonlar arasında boşluk */
+}
+
+.pagination button {
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 35px;
+    background-color: transparent; /* Varsayılan arka planı kaldır */
+    color: #fff; /* Yazı rengi beyaz */
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s; /* Geçiş efekti */
+}
+
+.pagination button:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Hover durumu için arka plan */
+}
+
+.pagination button.active {
+    background-color: #18181B; /* Seçili buton için arka plan rengi */
+    color: #fff; /* Seçili buton için yazı rengi */
+}
+
+.pagination button:disabled {
+    cursor: default; 
+    opacity: 0.5; 
+    visibility: collapse;
+}
+.pagination button:not(.active) {
+    border-radius: 4px;
+    background-color: transparent; /* Seçili olmayan butonlar için arka plan rengi yok */
+}

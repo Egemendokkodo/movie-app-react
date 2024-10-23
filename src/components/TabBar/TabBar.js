@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TabBar.css';
 import MovieCard from '../../components/MovieCard/MovieCard';
+import axios from 'axios';
+import Pagination from '../../components/Pagination/Pagination';  // Yeni Pagination component'i
 
 export const TabBar = () => {
     const [activeTab, setActiveTab] = useState(0);
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
     const tabs = [
         'Latest',
@@ -13,22 +19,34 @@ export const TabBar = () => {
         'Most Liked'
     ];
 
-    const content = [
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Ters yüz 2", year: 2024, imdbRate: 7.2, commentCount: 0, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 2", year: 2023, imdbRate: 8.0, commentCount: 10, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 3", year: 2022, imdbRate: 6.5, commentCount: 5, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 4", year: 2021, imdbRate: 9.0, commentCount: 20, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 5", year: 2020, imdbRate: 7.5, commentCount: 8, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 6", year: 2019, imdbRate: 8.5, commentCount: 12, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 7", year: 2018, imdbRate: 7.9, commentCount: 4, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 8", year: 2017, imdbRate: 6.8, commentCount: 2, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 9", year: 2020, imdbRate: 7.5, commentCount: 8, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 10", year: 2019, imdbRate: 8.5, commentCount: 12, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 11", year: 2018, imdbRate: 7.9, commentCount: 4, watchOptions: ["Türkçe Dublaj"] },
-        { image: "https://www.hdfilmcehennemi.sh/uploads/poster/inside-out-2_list.jpg", name: "Film 12", year: 2017, imdbRate: 6.8, commentCount: 2, watchOptions: ["Türkçe Dublaj"] },
+    const fetchMovies = async (page) => {
+        setLoading(true);
+        let response;
+        try {
+            if (activeTab === 0) {
+                response = await axios.get(`http://localhost:8080/api/movie/get-all-movies?page=${page}&size=20`);
+            } else {
+                const tagIds = [31, 30, 34, 33];
+                response = await axios.post(
+                    `http://localhost:8080/api/movie/get-movies-by-tag-id?page=${page}&size=20`,
+                    [tagIds[activeTab - 1]]
+                );
+            }
+            if (response && response.data.success) {
+                setMovies(response.data.response.movies);
+                setTotalPages(response.data.response.totalPages); 
+                setCurrentPage(response.data.response.currentPage); 
+            }
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-
-    ];
+    useEffect(() => {
+        fetchMovies(currentPage);
+    }, [activeTab, currentPage]);
 
     return (
         <div className='container'>
@@ -37,30 +55,46 @@ export const TabBar = () => {
                     <button
                         key={index}
                         className={`tab_btn ${activeTab === index ? 'active' : ''}`}
-                        onClick={() => setActiveTab(index)}
+                        onClick={() => {
+                            setActiveTab(index);
+                            setCurrentPage(0); 
+                        }}
                     >
                         {tab}
                     </button>
                 ))}
             </div>
 
-
-            <div className='content_box'>
-                {content.map((movie, index) => (
-                    <div className='content'>
-                        <MovieCard
-                        key={index}
-                        commentCount={movie.commentCount}
-                        image={movie.image}
-                        imdbRate={movie.imdbRate}
-                        name={movie.name}
-                        year={movie.year}
-                        watchOptions={movie.watchOptions}
-                        borderRadius={15}
-                    />
+            {loading ? (
+                <div className="loading_spinner">Loading...</div>
+            ) : (
+                <div>
+                    <div className='content_box'>
+                        {movies.map((movie, index) => (
+                            <div className='content' key={index}>
+                                <MovieCard
+                                    commentCount={movie.movieTotalCommentCount}
+                                    image={movie.movieImage}
+                                    imdbRate={movie.movieImdbRate}
+                                    name={movie.name}
+                                    year={movie.movieReleaseYear}
+                                    watchOptions={movie.watchOptions}
+                                    borderRadius={15}
+                                    
+                                />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                    />
+                </div>
+            )}
         </div>
     );
-}
+};
+
+export default TabBar;
