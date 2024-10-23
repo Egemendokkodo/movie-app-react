@@ -15,10 +15,10 @@ export const HomePage = () => {
     fetch('http://localhost:8080/api/movie/get-all-movies?page=1&size=12')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);  // Gelen veriyi inceleyelim
+        console.log(data);
         if (data.success) {
-          setMovies(data.response.movies);  // movies dizisine verileri atıyoruz
-          console.log("VERILER BAŞARIYLA GELDI");
+          setMovies(data.response.movies);
+
         }
       })
       .catch((error) => {
@@ -55,8 +55,14 @@ export const HomePage = () => {
             name={movie.name}
             year={movie.movieReleaseYear}
             watchOptions={movie.watchOptions}
+            tags={movie.tags} 
+            details={movie.movieDetails} 
+
           />
         ))}
+
+
+
         <div className='navButtonContainer'>
           <button className='navButton' onClick={handleNext} disabled={currentIndex >= movies.length - 6}>
             <FaChevronRight className='chevron'></FaChevronRight>

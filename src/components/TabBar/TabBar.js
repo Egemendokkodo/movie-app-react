@@ -80,8 +80,9 @@ export const TabBar = () => {
                                     year={movie.movieReleaseYear}
                                     watchOptions={movie.watchOptions}
                                     borderRadius={15}
-                                    
-                                />
+                                    tags={movie.tags}  // Pass tags as a prop
+                                    details={movie.movieDetails}  // Pass movie details as a prop
+                                />  
                             </div>
                         ))}
                     </div>

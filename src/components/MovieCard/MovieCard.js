@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaStar, FaComment } from 'react-icons/fa';
+import './MovieCard.css'; // Import your CSS file
 
 const MovieCard = ({ 
   borderRadius, 
@@ -12,83 +13,70 @@ const MovieCard = ({
   tags,
   details 
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+
   const movieCardStyle = {
     borderRadius: borderRadius || '0px',
-    overflow: 'hidden',
-    position: 'relative',
-    transition: 'transform 0.3s ease',
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    maxWidth: '200px',
-    height: 'auto',
-  };
-
-  const imageStyle = {
-    width: '100%',
-    height: '300px', 
-    objectFit: 'cover', 
-    transition: 'transform 0.3s ease',
-  };
-
-  const overlayStyle = {
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    color: '#fff',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '5px 10px',
-    justifyContent: 'flex-end',
-  };
-
-  const infoStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '11px',
-    marginBottom: '2px',
-  };
-
-  const movieNameStyle = {
-    marginBottom: '2px',
-    fontWeight: 'bold',
-    fontSize: '14px',
-  };
-
-  const watchOptionStyle = {
-    fontSize: '11px',
-    paddingBottom: "10px",
-    margin: "0",
   };
 
   const formattedWatchOptions = watchOptions.map(option => option.name).join(', ');
+  const shortDescription = details.description.length > 200 
+    ? details.description.substring(0, 200) + '...' 
+    : details.description;
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   return (
-    <div 
-      style={movieCardStyle} 
-      onMouseEnter={(e) => {
-        e.currentTarget.querySelector('img').style.transform = 'scale(1.1)';
-      }} 
-      onMouseLeave={(e) => {
-        e.currentTarget.querySelector('img').style.transform = 'scale(1)';
-      }}
+    <div  
+      className="movie-card-content"
+      onMouseEnter={handleMouseEnter} 
+      onMouseLeave={handleMouseLeave}
     >
-      <img src={image} alt={name} style={imageStyle} />
-      <div style={overlayStyle}>
-        <div style={infoStyle}>
-          <span style={{ color: "#b5b5b5" }}>{year}</span>
-          <span style={{ margin: '0 5px', color: "#b5b5b5" }}>
-            <FaComment style={{ fontSize: '8px', verticalAlign: 'middle' }} /> {commentCount}
-          </span>
-          <span style={{ color: "#ffd700" }}>
-            <FaStar style={{ color: 'gold', fontSize: '8px', verticalAlign: 'middle' }} /> {imdbRate}
-          </span>
+      <div className="movie-card" style={movieCardStyle}>
+        <img src={image} alt={name} />
+        <div className="overlay">
+          <div className="info">
+            <span style={{ color: "#b5b5b5" }}>{year}</span>
+            <span style={{ margin: '0 5px', color: "#b5b5b5" }}>
+              <FaComment style={{ fontSize: '8px', verticalAlign: 'middle' }} /> {commentCount}
+            </span>
+            <span style={{ color: "#ffd700" }}>
+              <FaStar style={{ color: 'gold', fontSize: '8px', verticalAlign: 'middle' }} /> {imdbRate}
+            </span>
+          </div>
+          <b className="movie-name">{name}</b>
+          <p className="watch-option">{formattedWatchOptions}</p> 
         </div>
-        <b style={movieNameStyle}>{name}</b>
-        <p style={watchOptionStyle}>{formattedWatchOptions}</p> 
+      </div>
+
+      <div 
+        className={`tooltip ${isHovered ? 'show' : ''}`}
+        style={{
+          top: '50%', // Center vertically relative to the card
+          left: '100%', // Position to the right of the card
+          transform: 'translateY(-50%)', // Center vertically
+        }}
+      >
+        <h4 style={{ margin: '0', fontSize: '16px' }}>{name}</h4>
+        <p style={{ margin: '5px 0' }}><FaStar color='gold' /> {imdbRate}</p>
+        <p style={{ margin: '0' }}><strong>Summary</strong></p>
+        <p style={{ margin: '0', marginTop: "5px", marginBottom: "10px" }}>{shortDescription}</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {tags.map(tag => (
+            <span key={tag.tagId} className="tag">
+              {tag.name}
+            </span>
+          ))}
+        </div>
+        <p style={{ margin: '0' }}><strong>Watch Options</strong></p>
+        <p style={{ margin: '0', marginTop: "5px", marginBottom: "10px",fontSize:"12px" }}>{formattedWatchOptions}</p>
       </div>
     </div>
   );
