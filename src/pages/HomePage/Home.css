@@ -3,6 +3,7 @@
     align-items: center;
     justify-content: center;
     position: relative; /* Konumlandırmayı kontrol etmek için */
+   
   }
   
 
@@ -11,6 +12,9 @@
     top: 50%; /* Yatayda ortala */
     transform: translateY(-50%); /* Dikeyde tam ortala */
     z-index: 1; /* Diğer içeriklerin üstünde görünmesini sağla */
+   
+
+    
   }
   .chevron{
     font-size: 14px;
@@ -65,7 +69,6 @@
   .pageContent{
     display: flex;
     justify-content: space-between;
-
   }
 
   .endColumn{

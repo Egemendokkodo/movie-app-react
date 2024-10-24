@@ -5,7 +5,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { TabBar } from '../../components/TabBar/TabBar';
 import MovieRobotAndMovieRequest from '../../components/MovieRobotAndMovieRequest/MovieRobotAndMovieRequest';
 import { MoviesByCategory } from '../../components/MoviesByCategory/MoviesByCategory';
-
+import { Footer } from '../../components/Footer/Footer';
 export const HomePage = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -39,7 +39,7 @@ export const HomePage = () => {
   };
 
   return (
-    <div>
+    <div >
       <div className='homePageStyle'>
         <div className='navButtonContainer'>
           <button className='navButton' onClick={handlePrev} disabled={currentIndex === 0}>
@@ -55,8 +55,8 @@ export const HomePage = () => {
             name={movie.name}
             year={movie.movieReleaseYear}
             watchOptions={movie.watchOptions}
-            tags={movie.tags} 
-            details={movie.movieDetails} 
+            tags={movie.tags}
+            details={movie.movieDetails}
 
           />
         ))}
@@ -76,6 +76,7 @@ export const HomePage = () => {
           <MoviesByCategory></MoviesByCategory>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

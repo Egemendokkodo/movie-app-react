@@ -1,0 +1,68 @@
+.footerDivider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.124);
+    margin: 0;
+    padding: 0;
+}
+
+.appName {
+    font-size: 20px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.615);
+    margin-right: 20px; 
+}
+
+.footerInside {
+    padding-left: 24px;
+    display: flex;
+    padding-top: 20px;
+    margin-top: 0;
+}
+
+.footerInside img {
+    margin-bottom: 0;
+}
+
+.helpContainer {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; 
+    margin-left: 3%;
+    
+}
+
+.titleHelp {
+    margin-top: 0;
+    font-size: 17px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.615);
+    margin-bottom: 10px; 
+}
+
+.titleHelpSubOptions {
+    text-decoration: underline;
+    font-size: 13px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.615);
+    margin-bottom: 5px; 
+}
+.footerDivider2{
+    height: 1px;
+    background-color: red;
+    
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 24px;
+    margin-right: 24px;
+}
+.footerText{
+    color: white;
+    font-size: small;
+    
+}
+.footerTextContent{
+    padding-left: 24px;
+}

@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import applogo from '../../images/app-logo.png';
 import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 export const Navbar = () => {
     const [isYearDropdownVisible, setIsYearDropdownVisible] = useState(false);
+    const navigate = useNavigate(); // useNavigate kullanımı
 
     const toggleYearDropdown = () => {
         setIsYearDropdownVisible(!isYearDropdownVisible);
     };
 
+    const handleYearClick = (year,apiUrl) => {
+        const title = `${year} Movies`;
+      
+        navigate(`/discover`, { state: { title,apiUrl } });
+    };
+
     const years = Array.from({ length: 2024 - 2018 + 1 }, (_, index) => 2018 + index).reverse();
+
     return (
         <div>
             <nav>
@@ -27,11 +35,10 @@ export const Navbar = () => {
                             <FaHome className="home-icon" />
                         </Link>
                     </li>
-                    <li><Link to="/discover"><p>Discover</p></Link></li>
+                    <li><Link to="/discover"><p  onClick={() => handleYearClick("Discover","http://localhost:8080/api/movie/get-all-movies")}>Discover</p></Link></li>
                     <li><Link to="/movies"><p>Movies</p></Link></li>
 
                     <li onClick={toggleYearDropdown} className="by-year">
-                        
                         <p>
                             By Year
                             <span className='byYearChevron'>
@@ -42,7 +49,9 @@ export const Navbar = () => {
                             <ul className="year-dropdown">
                                 {years.map((year) => (
                                     <li key={year}>
-                                        <Link to={`/movies/${year}`}><p>{year} Movies</p></Link>
+                                        <span onClick={() => handleYearClick(year,"http://localhost:8080/api/movie/get-all-movies")} className="year-link">
+                                            {year} Movies
+                                        </span>
                                     </li>
                                 ))}
                             </ul>

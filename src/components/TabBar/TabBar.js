@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './TabBar.css';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import axios from 'axios';
-import Pagination from '../../components/Pagination/Pagination';  // Yeni Pagination component'i
+import Pagination from '../../components/Pagination/Pagination';  
 
 export const TabBar = () => {
     const [activeTab, setActiveTab] = useState(0);

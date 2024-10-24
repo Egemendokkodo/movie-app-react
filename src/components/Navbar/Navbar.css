@@ -187,10 +187,11 @@ nav>ul {
     z-index: 1000;
     width: 150px;
     display: block;
+    color: white;
 }
 
 .year-dropdown li {
-    padding: 7px 0;
+    padding: 10px 0;
     display: block;
     width: 100%;
 }

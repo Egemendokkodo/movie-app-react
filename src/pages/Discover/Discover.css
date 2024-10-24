@@ -1,0 +1,34 @@
+.discoverPageContainer{
+    padding: 16px;
+}
+.discoverPageTitle{
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+.discoverPageContent{
+    display: flex;
+}
+.discoverPagePaginationContainer{
+    padding: 16px;
+}
+.content_box_discover_page{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px; 
+    
+}   
+
+.endColumnDiscoverPage{
+    padding: 30px 5px 0px 30px ;
+   
+    align-items: center;
+    justify-content: center;
+}
+.loading_spinner_discover_page {
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
