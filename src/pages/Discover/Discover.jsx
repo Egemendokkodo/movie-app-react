@@ -8,7 +8,6 @@ import { MoviesByCategory } from '../../components/MoviesByCategory/MoviesByCate
 import { Footer } from '../../components/Footer/Footer';
 import { useLocation } from 'react-router-dom';
 
-
 export const DiscoverPage = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [movies, setMovies] = useState([]);
@@ -17,18 +16,30 @@ export const DiscoverPage = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const location = useLocation();
-   
-  const { title, apiUrl = 'http://localhost:8080/api/movie/get-all-movies' } = location.state || {};
+  const { title, apiUrl, requestType = "GET", tagId } = location.state || {};
 
   const fetchMovies = async (page) => {
     setLoading(true);
     try {
-      console.log("URL BURADA :" + `${apiUrl}?page=${page}&size=20`);
-      const response = await axios.get(`${apiUrl}?page=${page}&size=20`);
-      if (response && response.data.success) {
-        setMovies(response.data.response.movies);
-        setTotalPages(response.data.response.totalPages);
-        setCurrentPage(response.data.response.currentPage);
+      if (requestType === "POST") {
+        console.log("POST İsteği Atılıyor:", `${apiUrl}?page=${page}&size=20`);
+        
+        const response = await axios.post(`${apiUrl}?page=${page}&size=20`, [tagId]);
+
+        if (response && response.data.success) {
+          setMovies(response.data.response.movies);
+          setTotalPages(response.data.response.totalPages);
+          setCurrentPage(response.data.response.currentPage);
+        }
+      } else {
+        console.log("GET İsteği Atılıyor:", `${apiUrl}?page=${page}&size=20`);
+
+        const response = await axios.get(`${apiUrl}?page=${page}&size=20`);
+        if (response && response.data.success) {
+          setMovies(response.data.response.movies);
+          setTotalPages(response.data.response.totalPages);
+          setCurrentPage(response.data.response.currentPage);
+        }
       }
     } catch (error) {
       console.error('Error fetching movies:', error);
@@ -38,9 +49,10 @@ export const DiscoverPage = () => {
   };
 
   useEffect(() => {
-    fetchMovies(currentPage);
-  }, [currentPage]);
-
+    if (apiUrl) {
+      fetchMovies(currentPage);
+    }
+  }, [apiUrl, currentPage, tagId]); 
   return (
     <div className='discoverPageContainer'>
       <div className='discoverPageTitle'> {title == null ? ("Discover") : (title)}</div>
@@ -58,8 +70,8 @@ export const DiscoverPage = () => {
                   year={movie.movieReleaseYear}
                   watchOptions={movie.watchOptions}
                   borderRadius={15}
-                  tags={movie.tags}  // Pass tags as a prop
-                  details={movie.movieDetails}  // Pass movie details as a prop
+                  tags={movie.tags}  
+                  details={movie.movieDetails} 
                 />
               </div>
             ))}

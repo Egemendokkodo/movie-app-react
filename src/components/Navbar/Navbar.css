@@ -218,3 +218,10 @@ nav>ul {
     margin-left: 5px;
     font-size: 12px;
 }
+.discoverBtn{
+    color: white;
+    cursor: pointer;
+}
+.discoverBtn:hover{
+    color: gray;
+}

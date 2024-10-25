@@ -6,16 +6,15 @@ import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp } from 'react
 
 export const Navbar = () => {
     const [isYearDropdownVisible, setIsYearDropdownVisible] = useState(false);
-    const navigate = useNavigate(); // useNavigate kullanımı
+    const navigate = useNavigate(); 
 
     const toggleYearDropdown = () => {
         setIsYearDropdownVisible(!isYearDropdownVisible);
     };
 
-    const handleYearClick = (year,apiUrl) => {
+    const handleYearClick = (year, apiUrl) => {
         const title = `${year} Movies`;
-      
-        navigate(`/discover`, { state: { title,apiUrl } });
+        navigate(`/discover`, { state: { title, apiUrl } });
     };
 
     const years = Array.from({ length: 2024 - 2018 + 1 }, (_, index) => 2018 + index).reverse();
@@ -35,7 +34,11 @@ export const Navbar = () => {
                             <FaHome className="home-icon" />
                         </Link>
                     </li>
-                    <li><Link to="/discover"><p  onClick={() => handleYearClick("Discover","http://localhost:8080/api/movie/get-all-movies")}>Discover</p></Link></li>
+                    <li>
+                        <span className='discoverBtn' onClick={() => handleYearClick("Discover", "http://localhost:8080/api/movie/get-all-movies")}>
+                            Discover
+                        </span>
+                    </li>
                     <li><Link to="/movies"><p>Movies</p></Link></li>
 
                     <li onClick={toggleYearDropdown} className="by-year">
@@ -49,7 +52,7 @@ export const Navbar = () => {
                             <ul className="year-dropdown">
                                 {years.map((year) => (
                                     <li key={year}>
-                                        <span onClick={() => handleYearClick(year,"http://localhost:8080/api/movie/get-all-movies")} className="year-link">
+                                        <span onClick={() => handleYearClick(year, "http://localhost:8080/api/movie/get-movie-by-year/"+year)} className="year-link">
                                             {year} Movies
                                         </span>
                                     </li>
