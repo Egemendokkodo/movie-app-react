@@ -27,7 +27,7 @@ export const Footer = () => {
                     <strong>Movie App</strong>, Created by Egemen Sevgi
                     <a style={{color:"#1976d2"}} href='https://www.linkedin.com/in/egemen-sevgi-813925206/' target="_blank" rel="noopener noreferrer"> My LinkedIn</a> in 2024.
                     Check backend of this project to run the project properly:
-                    <a style={{color:"#1976d2"}} href='https://github.com/Egemendokkodo/movie_app_backend_spring_postgresql' target="_blank" rel="noopener noreferrer"> My Backend Project</a>
+                    <a style={{color:"#1976d2"}} href='https://github.com/Egemendokkodo/movie_app_backend_spring_postgresql' target="_blank" rel="noopener noreferrer"> Backend of this project</a>
                 </p>
             </div>
 

@@ -22,8 +22,8 @@ export const DiscoverPage = () => {
     setLoading(true);
     try {
       if (requestType === "POST") {
-        console.log("POST İsteği Atılıyor:", `${apiUrl}?page=${page}&size=20`);
-        
+
+
         const response = await axios.post(`${apiUrl}?page=${page}&size=20`, [tagId]);
 
         if (response && response.data.success) {
@@ -32,7 +32,7 @@ export const DiscoverPage = () => {
           setCurrentPage(response.data.response.currentPage);
         }
       } else {
-        console.log("GET İsteği Atılıyor:", `${apiUrl}?page=${page}&size=20`);
+
 
         const response = await axios.get(`${apiUrl}?page=${page}&size=20`);
         if (response && response.data.success) {
@@ -52,7 +52,7 @@ export const DiscoverPage = () => {
     if (apiUrl) {
       fetchMovies(currentPage);
     }
-  }, [apiUrl, currentPage, tagId]); 
+  }, [apiUrl, currentPage, tagId]);
   return (
     <div className='discoverPageContainer'>
       <div className='discoverPageTitle'> {title == null ? ("Discover") : (title)}</div>
@@ -70,8 +70,8 @@ export const DiscoverPage = () => {
                   year={movie.movieReleaseYear}
                   watchOptions={movie.watchOptions}
                   borderRadius={15}
-                  tags={movie.tags}  
-                  details={movie.movieDetails} 
+                  tags={movie.tags}
+                  details={movie.movieDetails}
                 />
               </div>
             ))}

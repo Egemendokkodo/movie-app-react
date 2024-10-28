@@ -218,10 +218,149 @@ nav>ul {
     margin-left: 5px;
     font-size: 12px;
 }
-.discoverBtn{
+
+.discoverBtn {
     color: white;
     cursor: pointer;
 }
-.discoverBtn:hover{
+
+.discoverBtn:hover {
     color: gray;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #1b1b1ee7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #27272A;
+
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 40%;
+    width: 100%;
+    text-align: center;
+
+}
+
+.modal-input {
+    padding: 10px;
+    background-color: #3F3F46;
+    color: white;
+    border-radius: 20px;
+    border: none; 
+    outline: none;
+    width: 40%; 
+    margin-left: 10px; 
+}
+
+.modal-button {
+    background-color: #DC2626;
+    color: white;
+    padding: 10px 20px;
+    width: 58%;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.modal-button:hover{
+    background-color: #dc2626c7;
+}
+
+.modal-close-button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.titleContentNavbarLogin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.loginPageTitle {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.iconClose {
+    margin: 0;
+    padding: 0;
+    align-self: center;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+.textInputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    margin-top: 20px;
+}
+
+.textInputContainer p {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    color: white;
+    width: 20%;
+    text-align: left; 
+}
+.dividerLoginPage {
+    position: absolute;   
+    left: 0;              
+    right: 0;            
+    
+    height: 1px;         
+    background-color: rgba(128, 128, 128, 0.664); 
+    margin: 0;            
+    top: 60px;           
+    
+}
+
+.orLoginPage{
+    display: flex;
+    align-items: center;
+
+    justify-content: space-evenly;
+}
+.orLoginPage p{
+    color: #9F9FA7;
+    font-weight: bold;
+}
+.orLoginPageDivider{
+    position: relative;             
+    width:40%;
+    height: 1px;         
+    background-color: rgba(128, 128, 128, 0.335); 
+    margin: 0;            
+ 
+}
+.loginPageFooter{
+display: flex;
+justify-content: space-evenly;
+}
+.loginPageFooter p{
+    color: white;
+    cursor: pointer;
+}
+.loginPageFooter p:hover{
+    text-decoration: underline;
 }
