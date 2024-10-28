@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import applogo from '../../images/app-logo.png';
-import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa';
+import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes,FaArrowRight } from 'react-icons/fa';
 import axios from 'axios';
 export const Navbar = () => {
     const [isYearDropdownVisible, setIsYearDropdownVisible] = useState(false);
@@ -217,7 +217,8 @@ export const Navbar = () => {
                             />
                         </div>
                         <div className='textInputContainer'>
-                            <button className="modal-button" onClick={handleLogin}>Login</button> {/* Giriş işlemi için buton */}
+                            <button className="modal-button" onClick={handleLogin}><div className='buttonInside'>
+                            <p>Login</p><FaArrowRight></FaArrowRight></div></button> 
                         </div>
 
                         <div className='orLoginPage'>
@@ -283,7 +284,8 @@ export const Navbar = () => {
                             />
                         </div>
                         <div className='textInputContainer'>
-                            <button className="modal-button" onClick={handleSignUp}>Sign Up</button> 
+                            <button className="modal-button" onClick={handleSignUp}><div className='buttonInside'>
+                            <p>Sign Up</p><FaArrowRight></FaArrowRight></div></button> 
                         </div>
 
                         <div className='orLoginPage'>

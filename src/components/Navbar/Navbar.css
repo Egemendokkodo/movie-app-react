@@ -271,6 +271,7 @@ nav>ul {
     border: none;
     border-radius: 25px;
     cursor: pointer;
+    
     margin-top: 10px;
 }
 .modal-button:hover{
@@ -363,4 +364,9 @@ justify-content: space-evenly;
 }
 .loginPageFooter p:hover{
     text-decoration: underline;
+}
+.buttonInside{
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
