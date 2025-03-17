@@ -34,7 +34,8 @@ const MovieCard = ({
   };
 
   return (
-    <div  
+    <div>
+      <div  
       className="movie-card-content"
       onMouseEnter={handleMouseEnter} 
       onMouseLeave={handleMouseLeave}
@@ -78,6 +79,7 @@ const MovieCard = ({
         <p style={{ margin: '0' }}><strong>Watch Options</strong></p>
         <p style={{ margin: '0', marginTop: "5px", marginBottom: "10px",fontSize:"12px" }}>{formattedWatchOptions}</p>
       </div>
+    </div>
     </div>
   );
 };

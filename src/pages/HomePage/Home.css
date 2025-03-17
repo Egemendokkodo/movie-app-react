@@ -1,30 +1,46 @@
 .homePageStyle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative; /* Konumlandırmayı kontrol etmek için */
-   
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+.movies-wrapper {
+  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 0 40px; /* Oklar için yer bırak */
+}
   
+.movie-card-wrapper {
+  box-sizing: border-box;
+  padding: 0 5px; /* Kartlar arası boşluk */
+  flex-shrink: 0; /* Kartların küçülmesini engelle */
+}
+.movie-card-content {
+  width: 100%;
+}
+.movie-card {
+  width: 100%;
+}
 
-  .navButtonContainer {
-    position: absolute; /* Butonların konumunu kontrol et */
-    top: 50%; /* Yatayda ortala */
-    transform: translateY(-50%); /* Dikeyde tam ortala */
-    z-index: 1; /* Diğer içeriklerin üstünde görünmesini sağla */
-   
+.navButtonContainer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
 
-    
-  }
   .chevron{
     font-size: 14px;
   }
   .navButtonContainer:first-child {
-    left: 10px; /* Sol buton için konum */
+    left: 5px;
   }
   
   .navButtonContainer:last-child {
-    right: 10px; /* Sağ buton için konum */
+    right: 5px;
   }
   
   .navButton {
@@ -77,3 +93,40 @@
     justify-content: center;
 
   }
+  .slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .movies-row {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .slider-item {
+    flex: 0 0 auto; /* Esnemesini engelle */
+    padding: 0; /* Boşluk olmasın */
+    margin: 0; /* Boşluk olmasın */
+    box-sizing: border-box;
+  }
+  
+  .left-nav {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  
+  .right-nav {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+
+  
