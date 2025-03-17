@@ -48,7 +48,7 @@ const MovieCard = ({
       const rect = cardRef.current.getBoundingClientRect();
       
       // Tooltip'i kartın sağına yerleştir
-      let left = rect.right + 10; // Kart sağından 10px uzaklık
+      let left = rect.right + 3; // Kart sağından 10px uzaklık
       let top = rect.top;
       
       // Sağda yeterli alan yoksa sola yerleştir
