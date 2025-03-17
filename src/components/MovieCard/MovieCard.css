@@ -4,6 +4,7 @@
 }
 .movie-card:hover .tooltip {
   display: block;
+  z-index: 99999999;
 }
 
 .movie-card:hover img {
@@ -45,8 +46,8 @@
 }
 
 .tooltip {
-  position: absolute;
-  background-color: #18181bf0;
+  position: fixed; 
+  background-color: #000000d5;
   color: white;
   border-radius: 5px;
   padding: 10px;
@@ -54,7 +55,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 250px;
   height: auto;
-  z-index: 1000;
+  z-index: 9999; /* Yüksek z-index değeri */
+  pointer-events: none; /* Mouse olaylarını altındaki elementlere geçirir */
 }
 
 .tooltip.show {
