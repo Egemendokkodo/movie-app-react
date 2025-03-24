@@ -4,6 +4,7 @@ import MovieCard from '../../components/MovieCard/MovieCard';
 import axios from 'axios';
 import Pagination from '../../components/Pagination/Pagination';  
 
+
 export const TabBar = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [movies, setMovies] = useState([]);
@@ -82,6 +83,7 @@ export const TabBar = () => {
                                     borderRadius={15}
                                     tags={movie.tags}  // Pass tags as a prop
                                     details={movie.movieDetails}  // Pass movie details as a prop
+                                    movieId={movie.movieId}
                                 />  
                             </div>
                         ))}

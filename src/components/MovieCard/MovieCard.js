@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { FaStar, FaComment } from 'react-icons/fa';
 import './MovieCard.css';
-
-
+import { useNavigate } from "react-router-dom";
+import OnClickMovieCard from './OnClickMovieCard.js';
 const MovieCard = ({ 
   borderRadius, 
   image, 
@@ -13,7 +13,8 @@ const MovieCard = ({
   name, 
   watchOptions,
   tags,
-  details 
+  details,
+  movieId 
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
@@ -80,6 +81,15 @@ const MovieCard = ({
     };
   }, [isHovered]);
 
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    const movieCard = new OnClickMovieCard(movieId, navigate,name);
+    movieCard.goToMovieDetails(); // 
+  };
+
+
   return (
     <div>
       <div  
@@ -89,7 +99,7 @@ const MovieCard = ({
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
-        <div className="movie-card" style={movieCardStyle}>
+        <div className="movie-card" style={movieCardStyle} onClick={handleClick}>
           <img src={image} alt={name} />
           <div className="overlay">
             <div className="info">

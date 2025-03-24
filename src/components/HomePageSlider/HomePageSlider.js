@@ -70,6 +70,7 @@ const HomepageSlider = ({
               watchOptions={movie.watchOptions}
               tags={movie.tags}
               details={movie.movieDetails}
+              movieId={movie.movieId}
             />
           </div>
         ))}
