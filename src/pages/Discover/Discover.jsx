@@ -72,6 +72,7 @@ export const DiscoverPage = () => {
                   borderRadius={15}
                   tags={movie.tags}
                   details={movie.movieDetails}
+                  movieId={movie.movieId}
                 />
               </div>
             ))}
