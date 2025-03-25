@@ -11,7 +11,7 @@ body{
 }
 
 .AppBody {
-  background-color: #27272A;
+  background-color: rgb(39 39 42); 
   width: 65%;
   
   margin-top: 30px;
