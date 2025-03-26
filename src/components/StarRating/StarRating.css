@@ -1,0 +1,39 @@
+.sideBarContainer2 {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .star-rating {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .star {
+    font-size: 28px;
+    transition: color 0.2s ease, transform 0.2s ease;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .star.filled {
+    color: #ffb400;
+  }
+  
+  .star.empty {
+    color: #ccc;
+  }
+  
+  .star:hover:not(.readonly) {
+    transform: scale(1.1);
+  }
+  
+  .star.readonly {
+    cursor: default;
+  }
+  

@@ -1,12 +1,19 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../MovieDetails/MovieDetails.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaInfo, FaVolumeUp, FaImdb,FaExclamationCircle } from 'react-icons/fa';
+import RelatedMoviesSlider from '../../components/RelatedMoviesSlider/RelatedMoviesSlider';
+import { FaInfo, FaVolumeUp, FaImdb, FaExclamationCircle, FaEyeSlash, FaPlus, FaStar, FaFire, FaBolt,FaCommentDots } from 'react-icons/fa';
 import { VideoPlayer } from '../../components/VideoPlayer/VideoPlayer';
 import { Footer } from '../../components/Footer/Footer';
+import StarRating from '../../components/StarRating/StarRating'
+
+
+
+
 export const MovieDetails = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const movieId = location.state?.movieId;
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -86,6 +93,24 @@ export const MovieDetails = () => {
         setSelectedItem(index);
     };
 
+    const handleTagClick = (tag, apiUrl) => {
+        const title = `${tag.name} Movies`;
+        const requestType = "POST";
+        const tagId = tag.tagId;
+        navigate(`/discover`, { state: { title, apiUrl, requestType, tagId } });
+    };
+    const handleYearClick = (year, apiUrl) => {
+        const title = `${year} Movies`;
+        navigate(`/discover`, { state: { title, apiUrl } });
+    };
+
+    const [rating, setRating] = useState(0);
+
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+        console.log(`Film puanı: ${newRating}/10`);
+    };
+
     return (
         <div>
             <div className='movieDetailsPagePadding'>
@@ -126,88 +151,148 @@ export const MovieDetails = () => {
             </div>
             {movie && <VideoPlayer imageThumbnail={movie.movieImage} />}
             {movie && (
-    <div className='movieDetailsPagePadding'>
-        
-        
-       
-        <div className='contentRow'>
-            {/* Ana içerik - %70 */}
-            
-            <div className='mainContentContainer'>
-            <div className='sizedBoxH'></div>
-        <div className='infoContainer'>
-            <p className='titleStyle2'>{movie.name} | Movie Details</p>
-            <div className='infoButton'><FaInfo></FaInfo></div>
-        </div>
-        <div className='sizedBoxH'></div>
-                <div className='movieDetailsRow'>
-                    <img src={movie.movieImage} alt={"name"} className='movieImage' />
-                    <div className='detailsContainer'>
-                        <p className='descriptionText'>{movie.movieDetails.description}</p>
+                <div className='movieDetailsPagePadding'>
 
-                        <div className='column'>
-                            <div className='imdbContainer'>
-                                <div className='imdbIcon'>
-                                    <FaImdb size={52} color="#f5c518" />
+
+
+                    <div className='contentRow'>
+                        {/* Ana içerik - %70 */}
+
+                        <div className='mainContentContainer'>
+                            <div className='sizedBoxH'></div>
+                            <div className='infoContainer'>
+                                <p className='titleStyle2'>{movie.name} | Movie Details</p>
+                                <div className='infoButton'><FaInfo></FaInfo></div>
+                            </div>
+                            <div className='sizedBoxH'></div>
+                            <div className='movieDetailsRow'>
+                                <img src={movie.movieImage} alt={"name"} className='movieImage' />
+                                <div className='detailsContainer'>
+                                    <p className='descriptionText'>{movie.movieDetails.description}</p>
+
+                                    <div className='column'>
+                                        <div className='imdbContainer'>
+                                            <div className='imdbIcon'>
+                                                <FaImdb size={52} color="#f5c518" />
+                                            </div>
+                                            <div className='spaceBetweenItems'></div>
+                                            <div className='imdbRatingContainer'>
+                                                <p className='imdbTitle'>IMDb</p>
+                                                <p className='imdbRating'>
+                                                    {loading ? 'Yükleniyor...' : imdbRating !== null ? Number(imdbRating).toFixed(1) : 'N/A'}
+                                                    {voteCount !== null && voteCount > 0 && <span className='voteCount'> ({voteCount} votes)</span>}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className='moreMovieDetailsContainer'>
+                                            <p className='titleStyle2'>Time</p>
+                                            <div className='spaceBetweenItems'></div>
+                                            <p className='descriptionText'>{movie.movieDetails.movieLengthInMins} minutes</p>
+                                        </div>
+                                        <div className='moreMovieDetailsContainer'>
+                                            <p className='titleStyle2'>Total Watched</p>
+                                            <div className='spaceBetweenItems'></div>
+                                            <p className='descriptionText'>{movie.movieDetails.totalWatched}</p>
+                                        </div>
+
+                                        <div className='moreMovieDetailsContainer'>
+                                            <p className='titleStyle2'>Year</p>
+                                            <div className='spaceBetweenItems'></div>
+                                            <div className='movieDetailBox' onClick={() => handleYearClick(movie.movieReleaseYear, "http://localhost:8080/api/movie/get-movie-by-year/" + movie.movieReleaseYear)}><p className='descriptionText'>{movie.movieReleaseYear}</p></div>
+                                        </div>
+
+                                        <div className='moreMovieDetailsContainer'>
+                                            <p className='titleStyle2'>Category</p>
+                                            <div className='spaceBetweenItems'></div>
+                                            {movie.tags.map((tag, index) => (
+                                                <div key={index} className='movieDetailBox' onClick={() => handleTagClick(tag, "http://localhost:8080/api/movie/get-movies-by-tag-id")}><p className='descriptionText'>{tag.name}</p></div>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='spaceBetweenItems'></div>
-                                <div className='imdbRatingContainer'>
-                                    <p className='imdbTitle'>IMDb</p>
-                                    <p className='imdbRating'>
-                                        {loading ? 'Yükleniyor...' : imdbRating !== null ? Number(imdbRating).toFixed(1) : 'N/A'}
-                                        {voteCount !== null && voteCount > 0 && <span className='voteCount'> ({voteCount} votes)</span>}
-                                    </p>
-                                </div>
                             </div>
-
-                            <div className='moreMovieDetailsContainer'>
-                                <p className='titleStyle2'>Time</p>
-                                <div className='spaceBetweenItems'></div>
-                                <p className='descriptionText'>{movie.movieDetails.movieLengthInMins} minutes</p>
+                            <div className='sizedBoxH'></div>
+                            <div className='relatedToContainer'><p className='titleStyle2'>Movies Related to {movie.name}</p>
+                            <FaBolt color='#ef4444' size={24}></FaBolt></div>
+                            <div className='sizedBoxH'></div>
+                            <RelatedMoviesSlider tagList={movie.tags} maxLength={6} showChevrons={true} />
+                            <div className='sizedBoxH'></div>
+                            <div className='relatedToContainer'>
+                            <p className='titleStyle2'>Comments (0)</p>
+                            <FaCommentDots color='#ef4444' size={24}></FaCommentDots>
                             </div>
-                            <div className='moreMovieDetailsContainer'>
-                                <p className='titleStyle2'>Total Watched</p>
+                            <div className='sizedBoxH'></div>
+                            <div className='noLoginContainer'>
                                 <div className='spaceBetweenItems'></div>
-                                <p className='descriptionText'>{movie.movieDetails.totalWatched}</p>
-                            </div>
-
-                            <div className='moreMovieDetailsContainer'>
-                                <p className='titleStyle2'>Year</p>
+                                <FaExclamationCircle color='rgb(252 165 165 )' />
                                 <div className='spaceBetweenItems'></div>
-                                <div className='movieDetailBox'><p className='descriptionText'>{movie.movieReleaseYear}</p></div>
-                            </div>
-
-                            <div className='moreMovieDetailsContainer'>
-                                <p className='titleStyle2'>Category</p>
-                                <div className='spaceBetweenItems'></div>
-                                {movie.tags.map((tag, index) => (
-                                    <div key={index} className='movieDetailBox'><p className='descriptionText'>{tag.name}</p></div>
-                                ))}
+                                <p className='noLoginText'>Only registered users can comment.</p>
                             </div>
                         </div>
+
+                        {/* Kenar çubuğu - %30 */}
+                        <div className='sidebarContainer'>
+                            <div className='sizedBoxH'></div>
+                            <div className='sidebarButtonRow'>
+
+                                <div className='sideBarContainer'>
+                                    <FaEyeSlash color='white' size={24}></FaEyeSlash>
+                                    <div className='sizedBoxH2'></div>
+                                    <p className='titleStyle2'>Not Watched</p>
+
+                                </div>
+                                <div className='spaceBetweenItems'></div>
+                                <div className='sideBarContainer'>
+                                    <FaPlus color='white' size={24}></FaPlus>
+                                    <div className='sizedBoxH2'></div>
+                                    <p className='titleStyle2'>Follow</p>
+
+                                </div>
+                            </div>
+                            <div className='sizedBoxH'></div>
+                            <div className='websiteRatingTitle'>
+                                <div className='starIconStyle'>
+                                    <FaFire color='grey' size={24} style={{ verticalAlign: 'middle' }} />
+                                </div>
+                                <p className='titleStyle2'>Website Rating</p>
+                            </div>
+                            <div className='sizedBoxH2'></div>
+                            <div className='sideBarContainer2'>
+                                <div className='websiteRatingContainer'>
+                                    <div className="iconContainer">
+                                        <FaFire size={50} color='#ef4444'></FaFire>
+                                    </div>
+                                    <div className="ratingTextContainer">
+                                        <div className="ratingValues">
+                                            <p className='rateStyle'>{movie.movieDetails.websiteRating}</p>
+                                            <p className='rateStyle2'>/ 10</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='sizedBoxH'></div>
+                            <div className='websiteRatingTitle'>
+                                <div className='starIconStyle'>
+                                    <FaFire color='grey' size={24} style={{ verticalAlign: 'middle' }} />
+                                </div>
+                                <p className='titleStyle2'>Website Rating</p>
+                               
+                            </div>
+                            <div className='sizedBoxH2'></div>
+                            <div className="sideBarContainer2"> <StarRating
+                                initialRating={0}
+                                readOnly={false}
+                            /></div>
+
+                        </div>
                     </div>
+
+                    <div className='sizedBoxH'></div>
+
+
                 </div>
-                <div className='sizedBoxH'></div>
-                <p className='titleStyle2'>Comments (0)</p>
-                <div className='sizedBoxH'></div>
-                <div className='noLoginContainer'>
-                    <div className='spaceBetweenItems'></div>
-                    <FaExclamationCircle color='rgb(252 165 165 )' />
-                    <div className='spaceBetweenItems'></div>
-                    <p className='noLoginText'>Only registered users can comment.</p>
-                </div>
-            </div>
-            
-            {/* Kenar çubuğu - %30 */}
-            <div className='sidebarContainer'>
-                <p className='sidebarTitle'>Related Content</p>
-                {/* Buraya ilgili içerikler eklenebilir */}
-            </div>
-        </div>
-        
-        <div className='sizedBoxH'></div>
-    </div>
-)}
+            )}
 
 
             <Footer></Footer>

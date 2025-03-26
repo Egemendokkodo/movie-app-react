@@ -1,26 +1,30 @@
-.movieDetailsPagePadding{
+.movieDetailsPagePadding {
 
     margin-left: 2%;
     margin-right: 2%;
 }
-.titleStyle{
+
+.titleStyle {
     color: white;
     font-weight: bold;
     font-size: 22px;
 }
-.yearStyle{
+
+.yearStyle {
     color: grey;
     font-size: 20px;
     align-self: center;
     margin-left: 10px;
 }
-.titleRow{
+
+.titleRow {
     display: flex;
- 
+
 }
 
 .watchOptionsContainer {
-    align-items: center; /* Bu zaten var, doğru */
+    align-items: center;
+    /* Bu zaten var, doğru */
     padding-left: 10px;
     padding-right: 10px;
     height: 40px;
@@ -37,23 +41,31 @@
 .watchOptionsItem {
     color: white;
     font-weight: 600;
-    margin: 0; /* Paragraf elementlerinin varsayılan margin'ini kaldır */
-    display: flex; /* Dikey hizalama için */
-    align-items: center; /* Dikey hizalama için */
+    margin: 0;
+    /* Paragraf elementlerinin varsayılan margin'ini kaldır */
+    display: flex;
+    /* Dikey hizalama için */
+    align-items: center;
+    /* Dikey hizalama için */
 }
 
 .watchOptionsDivider {
     color: grey;
     margin: 0 5px;
-    display: flex; /* Dikey hizalama için */
-    align-items: center; /* Dikey hizalama için */
+    display: flex;
+    /* Dikey hizalama için */
+    align-items: center;
+    /* Dikey hizalama için */
 }
 
 .iconContainer {
     margin-right: 10px;
-    display: flex; /* Dikey hizalama için */
-    align-items: center; /* Dikey hizalama için */
-    height: 100%; /* Konteynerin yüksekliğini doldur */
+    display: flex;
+    /* Dikey hizalama için */
+    align-items: center;
+    /* Dikey hizalama için */
+    height: 100%;
+    /* Konteynerin yüksekliğini doldur */
 }
 
 .sourcesContainer {
@@ -66,7 +78,7 @@
     display: flex;
     width: auto;
     max-width: 100%;
-    gap: 10px; 
+    gap: 10px;
     margin-bottom: 30px;
 }
 
@@ -92,21 +104,26 @@
 .descriptionText {
     text-align: justify;
     color: rgb(212 212 216);
-    margin: 0; /* Varsayılan margin değerlerini sıfırla */
+    margin: 0;
+    /* Varsayılan margin değerlerini sıfırla */
 }
 
-.infoContainer {justify-content: space-between;
+.infoContainer {
+    justify-content: space-between;
     display: flex;
     align-items: center;
-    width: 100%; /* Container'ın tam genişliği kaplamasını sağlar */
-    position: relative; /* Pozisyon referansı için */
+    width: 100%;
+    /* Container'ın tam genişliği kaplamasını sağlar */
+    position: relative;
+    /* Pozisyon referansı için */
 }
 
 .titleStyle2 {
     color: white;
     font-weight: bold;
     font-size: 16px;
-    margin: 0; /* Varsayılan margin değerlerini sıfırla */
+    margin: 0;
+    /* Varsayılan margin değerlerini sıfırla */
 }
 
 
@@ -118,55 +135,73 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  
+
     cursor: pointer;
-   
+
 }
 
 
 .moreMovieDetailsContainer {
     display: inline-flex;
-    margin: 5px 0; /* Üst ve alt kenardan 5px boşluk */
-    align-items: center; /* İçeriği dikey olarak ortala */
+    margin: 5px 0;
+    /* Üst ve alt kenardan 5px boşluk */
+    align-items: center;
+    /* İçeriği dikey olarak ortala */
 }
 
-.spaceBetweenItems{
+.spaceBetweenItems {
     width: 10px;
-  
+
 }
+
 .column {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px; /* Elemanlar arasında 10px boşluk */
-    margin-top: 15px; /* Açıklama metni ile arasında boşluk */
+    gap: 10px;
+    /* Elemanlar arasında 10px boşluk */
+    margin-top: 15px;
+    /* Açıklama metni ile arasında boşluk */
 }
 
 .movieDetailBox {
     border-radius: 5px;
+    cursor: pointer;
     background-color: rgb(63 63 70);
-    padding: 0 8px; /* İçeriğin etrafında boşluk */
+    padding: 0 8px;
+    /* İçeriğin etrafında boşluk */
     margin-right: 10px;
 }
-.sizedBoxH{
+
+.movieDetailBox:hover {
+    background-color: rgb(84, 84, 90);
+}
+
+.sizedBoxH {
     height: 20px;
 }
+
 .imdbContainer {
     display: flex;
-    align-items: center; /* Dikey hizalama için önemli */
-   
+    align-items: center;
+    /* Dikey hizalama için önemli */
+
 }
 
 .imdbIcon {
-    color: #f5c518; /* IMDb'nin resmi sarı rengi */
-    display: flex; /* İkonun düzgün hizalanması için */
-    align-items: center; /* İkonu dikey olarak ortala */
+    color: #f5c518;
+    /* IMDb'nin resmi sarı rengi */
+    display: flex;
+    /* İkonun düzgün hizalanması için */
+    align-items: center;
+    /* İkonu dikey olarak ortala */
 }
 
 .imdbRatingContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Yazıları dikey olarak ortala */
+    justify-content: center;
+    /* Yazıları dikey olarak ortala */
 }
 
 .imdbTitle {
@@ -174,7 +209,8 @@
     font-weight: bold;
     margin: 0;
     font-size: 16px;
-    line-height: 1; /* Satır yüksekliğini azalt */
+    line-height: 1;
+    /* Satır yüksekliğini azalt */
 }
 
 .imdbRating {
@@ -182,7 +218,8 @@
     font-weight: bold;
     font-size: 20px;
     margin: 0;
-    line-height: 1.2; /* Satır yüksekliğini azalt */
+    line-height: 1.2;
+    /* Satır yüksekliğini azalt */
 }
 
 .voteCount {
@@ -191,15 +228,17 @@
     font-weight: normal;
     margin-left: 5px;
 }
-.noLoginContainer{
+
+.noLoginContainer {
     display: flex;
     align-items: center;
     border-radius: 10px;
     padding: 2px;
     background-color: rgb(220 38 38 / 0.1);
 }
-.noLoginText{
-    color: rgb(252 165 165 );
+
+.noLoginText {
+    color: rgb(252 165 165);
 }
 
 .contentRow {
@@ -212,36 +251,46 @@
 
 /* Resim için düzeltmeler */
 .movieImage {
-    width: 200px; /* Sabit genişlik */
-    height: auto; /* Oranı koruyarak yükseklik */
+    width: 200px;
+    /* Sabit genişlik */
+    height: auto;
+    /* Oranı koruyarak yükseklik */
     min-height: 300px;
     border-radius: 20px;
-    object-fit: cover; /* Resmin oranını korur */
+    object-fit: cover;
+    /* Resmin oranını korur */
 }
 
 /* Detaylar konteynerı için düzeltmeler */
 .movieDetailsRow {
     display: flex;
-    gap: 20px; /* Resim ve detaylar arasında boşluk */
+    gap: 20px;
+    /* Resim ve detaylar arasında boşluk */
     width: 100%;
 }
 
 .detailsContainer {
-    flex: 1; /* Kalan alanı doldur */
-    margin-left: 0; /* Önceki margin'i kaldır, gap kullanıyoruz */
+    flex: 1;
+    /* Kalan alanı doldur */
+    margin-left: 0;
+    /* Önceki margin'i kaldır, gap kullanıyoruz */
     position: relative;
 }
 
 /* Ana içerik konteynerı için düzeltmeler */
 .mainContentContainer {
-    flex: 7; /* %70 oranı için */
-    min-width: 0; /* Flex içinde taşma sorununu önler */
+    flex: 7;
+    /* %70 oranı için */
+    min-width: 0;
+    /* Flex içinde taşma sorununu önler */
 }
 
 /* Yan menü için düzeltmeler */
 .sidebarContainer {
-    flex: 3; /* %30 oranı için */
-   
+    flex: 3;
+    /* %30 oranı için */
+
+
 }
 
 /* Responsive düzenlemeler için */
@@ -255,24 +304,118 @@
     .contentRow {
         flex-direction: column;
     }
-    
+
     .sidebarContainer {
         margin-top: 20px;
         width: 100%;
         min-width: 100%;
     }
-    
+
     .movieDetailsRow {
         flex-direction: column;
     }
-    
+
     .movieImage {
         width: 100%;
         max-width: 300px;
         margin-bottom: 20px;
     }
-    
+
     .detailsContainer {
         width: 100%;
     }
+}
+
+.sidebarButtonRow {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.sideBarContainer {
+    flex: 1;
+    /* Her iki butonun da eşit genişlikte olmasını sağlar */
+    background-color: #18181B;
+    padding: 18px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.sizedBoxH2 {
+    height: 10px;
+}
+
+.sideBarContainer:hover {
+    background-color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.websiteRatingTitle {
+    display: inline-flex;
+    align-items: center;
+}
+
+.starIconStyle {
+    margin-right: 10px;
+    display: flex;
+    /* Ekleyin */
+    align-items: center;
+    /* Ekleyin */
+    height: 100%;
+    /* Ekleyin */
+}
+
+.websiteRatingContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+
+.ratingTextContainer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.ratingValues {
+    display: flex;
+    align-items: center;
+}
+
+.rateStyle {
+    color: white;
+    font-size: 30px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.rateStyle2 {
+    color: grey;
+    font-size: 30px;
+}
+
+.sideBarContainer2 {
+    flex: 1;
+    /* Her iki butonun da eşit genişlikte olmasını sağlar */
+    background-color: #18181B;
+    padding: 8px 16px 8px 16px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.relatedToContainer {
+    display: flex;
+
+    justify-content: space-between;
 }
