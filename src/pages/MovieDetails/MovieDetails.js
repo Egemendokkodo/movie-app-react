@@ -208,7 +208,7 @@ export const MovieDetails = () => {
     </div>
     
     <div className='trailerButton' onClick={() => window.open(movie.movieDetails.trailer, '_blank')}>
-        <div className="container">
+        <div className="containerTrailer">
             <div className="circle-image-container">
                 <img src={movie.movieImage} alt="Yuvarlak Resim" className="circle-image" />
                 <div className="play-icon"></div>

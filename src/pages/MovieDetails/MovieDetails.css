@@ -560,7 +560,7 @@
     z-index: 1; /* İkonun katmanın üstünde görünmesi için */
 }
 
-.container {
+.containerTrailer {
     display: flex;
     justify-content: center;
     align-items: center;
