@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../AuthContext/AuthContext';
 import RelatedMoviesSlider from '../../components/RelatedMoviesSlider/RelatedMoviesSlider';
-import { FaInfo, FaVolumeUp, FaImdb, FaExclamationCircle, FaEyeSlash, FaPlus, FaStar, FaFire, FaBolt, FaCommentDots,FaPaperPlane } from 'react-icons/fa';
+import { FaInfo, FaVolumeUp, FaImdb, FaExclamationCircle, FaEyeSlash, FaPlus, FaStar, FaFire, FaBolt, FaCommentDots, FaPaperPlane } from 'react-icons/fa';
 import { VideoPlayer } from '../../components/VideoPlayer/VideoPlayer';
 import { Footer } from '../../components/Footer/Footer';
 import StarRating from '../../components/StarRating/StarRating'
@@ -32,16 +32,16 @@ export const MovieDetails = () => {
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
-    
-    const handleSentComment =()=>{
-       
+
+    const handleSentComment = () => {
+
         if (comment) {
-            console.log("comment yazılan : "+comment);
-            console.log("switch value :"+switchValue)
-        }else{
+            console.log("comment yazılan : " + comment);
+            console.log("switch value :" + switchValue)
+        } else {
             alert("You cannot send an empty comment.")
         }
-      
+
     }
     const fetchMovies = async () => {
         if (!movieId) {
@@ -193,19 +193,31 @@ export const MovieDetails = () => {
                                     <p className='descriptionText'>{movie.movieDetails.description}</p>
 
                                     <div className='column'>
-                                        <div className='imdbContainer'>
-                                            <div className='imdbIcon'>
-                                                <FaImdb size={52} color="#f5c518" />
-                                            </div>
-                                            <div className='spaceBetweenItems'></div>
-                                            <div className='imdbRatingContainer'>
-                                                <p className='imdbTitle'>IMDb</p>
-                                                <p className='imdbRating'>
-                                                    {loading ? 'Yükleniyor...' : imdbRating !== null ? Number(imdbRating).toFixed(1) : 'N/A'}
-                                                    {voteCount !== null && voteCount > 0 && <span className='voteCount'> ({voteCount} votes)</span>}
-                                                </p>
-                                            </div>
-                                        </div>
+                                    <div className='outerImdb'>
+    <div className='imdbContainer'>
+        <div className='imdbIcon'>
+            <FaImdb size={52} color="#f5c518" />
+        </div>
+        <div className='imdbRatingContainer'>
+            <p className='imdbTitle'>IMDb</p>
+            <p className='imdbRating'>
+                {loading ? 'Yükleniyor...' : imdbRating !== null ? Number(imdbRating).toFixed(1) : 'N/A'}
+                {voteCount !== null && voteCount > 0 && <span className='voteCount'> ({voteCount} votes)</span>}
+            </p>
+        </div>
+    </div>
+    
+    <div className='trailerButton' onClick={() => window.open(movie.movieDetails.trailer, '_blank')}>
+        <div className="container">
+            <div className="circle-image-container">
+                <img src={movie.movieImage} alt="Yuvarlak Resim" className="circle-image" />
+                <div className="play-icon"></div>
+            </div>
+            <p className='titleStyle2'>Trailer</p>
+        </div>
+    </div>
+</div>
+
 
                                         <div className='moreMovieDetailsContainer'>
                                             <p className='titleStyle2'>Time</p>
@@ -264,11 +276,11 @@ export const MovieDetails = () => {
                                         <p className='containSpoilerText'>Contains Spoiler</p>
                                     </div>
                                     <div className='sendCommentBtn'>
-                                         <button className="rounded-button" onClick={handleSentComment}>
-                                                                        
-                                                                        <span className="button-text">Send Comment</span>
-                                                                        <FaPaperPlane className="sendIcon" />
-                                                                    </button>
+                                        <button className="rounded-button" onClick={handleSentComment}>
+
+                                            <span className="button-text">Send Comment</span>
+                                            <FaPaperPlane className="sendIcon" />
+                                        </button>
                                     </div>
                                 </div> <div className='sizedBoxH3'></div>
                             </div>) : (<div className='noLoginContainer'>
