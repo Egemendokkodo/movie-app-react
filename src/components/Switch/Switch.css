@@ -1,0 +1,53 @@
+.custom-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  .switch-checkbox {
+    height: 0;
+    width: 0;
+    opacity: 0;
+  }
+  
+  .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Unchecked durumunda gri arkaplan */
+    background-color: rgba(63, 63, 70, 0.500);
+    transition: .4s;
+    border-radius: 34px;
+    /* Gri kenarlıklar */
+    border: 1px solid grey;
+  }
+  
+  .switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  /* Checked durumunda kırmızı arkaplan */
+  input:checked + .switch-slider {
+    background-color: rgb(220 38 38 / 0.2);
+    /* Kırmızı kenarlıklar */
+    border: 1px solid rgb(220 38 38 / 0.2);
+  }
+  
+  /* Checked durumunda kırmızı thumb */
+  input:checked + .switch-slider:before {
+    transform: translateX(26px);
+    background-color: rgb(220 38 38);
+  }
+  

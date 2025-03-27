@@ -2,16 +2,18 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../MovieDetails/MovieDetails.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../AuthContext/AuthContext';
 import RelatedMoviesSlider from '../../components/RelatedMoviesSlider/RelatedMoviesSlider';
-import { FaInfo, FaVolumeUp, FaImdb, FaExclamationCircle, FaEyeSlash, FaPlus, FaStar, FaFire, FaBolt,FaCommentDots } from 'react-icons/fa';
+import { FaInfo, FaVolumeUp, FaImdb, FaExclamationCircle, FaEyeSlash, FaPlus, FaStar, FaFire, FaBolt, FaCommentDots,FaPaperPlane } from 'react-icons/fa';
 import { VideoPlayer } from '../../components/VideoPlayer/VideoPlayer';
 import { Footer } from '../../components/Footer/Footer';
 import StarRating from '../../components/StarRating/StarRating'
-
+import Switch from '../../components/Switch/Switch'
 
 
 
 export const MovieDetails = () => {
+    const { user, isLoggedIn } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const movieId = location.state?.movieId;
@@ -20,6 +22,16 @@ export const MovieDetails = () => {
     const [error, setError] = useState(null);
     const [imdbRating, setImdbRating] = useState(null);
     const [voteCount, setVoteCount] = useState(null); // Oy sayısı için yeni state
+    const [comment, setComment] = useState('');
+    const [switchValue, setSwitchValue] = useState(false);
+
+    const handleSwitchToggle = () => {
+        setSwitchValue(!switchValue);
+    };
+
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
 
     const fetchMovies = async () => {
         if (!movieId) {
@@ -149,7 +161,7 @@ export const MovieDetails = () => {
                     </>
                 )}
             </div>
-            {movie && <VideoPlayer imageThumbnail={movie.movieImage} movieId={movie.movieId}/>}
+            {movie && <VideoPlayer imageThumbnail={movie.movieImage} movieId={movie.movieId} />}
             {movie && (
                 <div className='movieDetailsPagePadding'>
 
@@ -214,21 +226,48 @@ export const MovieDetails = () => {
                             </div>
                             <div className='sizedBoxH'></div>
                             <div className='relatedToContainer'><p className='titleStyle2'>Movies Related to {movie.name}</p>
-                            <FaBolt color='#ef4444' size={24}></FaBolt></div>
+                                <FaBolt color='#ef4444' size={24}></FaBolt></div>
                             <div className='sizedBoxH'></div>
                             <RelatedMoviesSlider tagList={movie.tags} maxLength={6} showChevrons={true} />
                             <div className='sizedBoxH'></div>
                             <div className='relatedToContainer'>
-                            <p className='titleStyle2'>Comments (0)</p>
-                            <FaCommentDots color='#ef4444' size={24}></FaCommentDots>
+                                <p className='titleStyle2'>Comments (0)</p>
+                                <FaCommentDots color='#ef4444' size={24}></FaCommentDots>
                             </div>
                             <div className='sizedBoxH'></div>
-                            <div className='noLoginContainer'>
+                            {isLoggedIn ? (<div className='commentContainer'>
+                                <input
+                                    type="text"
+                                    placeholder="Your thoughts"
+                                    className="modal-input"
+                                    value={comment}
+                                    onChange={handleCommentChange}
+                                />
+                                <div className='sizedBoxH3'></div>
+                                <div className='commentBottomContainer'>
+                                    <div className='switchContainer'>
+                                        <Switch
+                                            isOn={switchValue}
+                                            handleToggle={handleSwitchToggle}
+                                            onColor="#06D6A0"
+                                        />
+                                        <p className='containSpoilerText'>Contains Spoiler</p>
+                                    </div>
+                                    <div className='sendCommentBtn'>
+                                         <button className="rounded-button" onClick={()=>{}}>
+                                                                        
+                                                                        <span className="button-text">Send Comment</span>
+                                                                        <FaPaperPlane className="sendIcon" />
+                                                                    </button>
+                                    </div>
+                                </div>
+                            </div>) : (<div className='noLoginContainer'>
                                 <div className='spaceBetweenItems'></div>
                                 <FaExclamationCircle color='rgb(252 165 165 )' />
                                 <div className='spaceBetweenItems'></div>
                                 <p className='noLoginText'>Only registered users can comment.</p>
-                            </div>
+                            </div>)}
+
                         </div>
 
                         {/* Kenar çubuğu - %30 */}
@@ -277,7 +316,7 @@ export const MovieDetails = () => {
                                     <FaFire color='grey' size={24} style={{ verticalAlign: 'middle' }} />
                                 </div>
                                 <p className='titleStyle2'>Website Rating</p>
-                               
+
                             </div>
                             <div className='sizedBoxH2'></div>
                             <div className="sideBarContainer2"> <StarRating
