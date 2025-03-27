@@ -2,19 +2,23 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import applogo from '../../images/app-logo.png';
-import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes,FaArrowRight } from 'react-icons/fa';
+import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes, FaArrowRight, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import axios from 'axios';
+import { useAuth } from '../../AuthContext/AuthContext';
+
 export const Navbar = () => {
+    const { user, isLoggedIn, login, logout } = useAuth(); // AuthContext'ten değerleri alın
     const [isYearDropdownVisible, setIsYearDropdownVisible] = useState(false);
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
     const [isSignUpModalVisible, setisSignUpModalVisible] = useState(false);
-    const [email, setEmail] = useState(''); // E-posta state'iset
-    const [nameAndSurname, setNameAndSurname] = useState(''); // E-posta state'i
-    const [password, setPassword] = useState(''); // Şifre state'i
-    const [passwordRepeatChange, setPasswordRepeatChange] = useState(''); 
+    const [email, setEmail] = useState('');
+    const [nameAndSurname, setNameAndSurname] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordRepeatChange, setPasswordRepeatChange] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    // Mevcut fonksiyonlar aynı kalır
     const toggleYearDropdown = () => {
         setIsYearDropdownVisible(!isYearDropdownVisible);
     };
@@ -27,7 +31,8 @@ export const Navbar = () => {
     const handleLoginClick = () => {
         setIsLoginModalVisible(true);
     };
-    const clearAllTextInputs =()=>{
+    
+    const clearAllTextInputs = () => {
         setEmail('');
         setPassword('');
         setNameAndSurname('');
@@ -45,6 +50,7 @@ export const Navbar = () => {
         setisSignUpModalVisible(true);
         clearAllTextInputs();
     };
+    
     const closeSignInModalAndOpenLoginModal = () => {
         setIsLoginModalVisible(true);
         setisSignUpModalVisible(false);
@@ -56,20 +62,25 @@ export const Navbar = () => {
     const handleEmailChange = (e) => {
         setEmail(e.target.value); 
     };
+    
     const handleNameAndSurnameChange = (e) => {
         setNameAndSurname(e.target.value); 
     };
+    
     const handlePasswordChange = (e) => {
         setPassword(e.target.value); 
     };
+    
     const handlePasswordRepeatChange = (e) => {
         setPasswordRepeatChange(e.target.value); 
     };
+
+    // Login fonksiyonunu güncelle
     const handleLogin = async () => {
         setLoading(true);
     
         if (!email || !password) {
-            alert("Please enter all the required fields.");
+            alert("Lütfen tüm gerekli alanları doldurun.");
             setLoading(false);
             return;
         }
@@ -79,8 +90,13 @@ export const Navbar = () => {
                 email,
                 password
             });
-            alert("Login successful");
-            closeModal();
+            
+            // Başarılı giriş durumunda kullanıcı verilerini kaydet
+            if (response.data.success) {
+                login(response.data.response); // AuthContext'in login fonksiyonunu kullan
+                alert("Giriş başarılı");
+                closeModal();
+            }
         } catch (error) {
             console.log(error);
             alert((error.response?.data?.message || error.message));
@@ -89,6 +105,13 @@ export const Navbar = () => {
         }
     };
     
+    // Logout fonksiyonu ekle
+    const handleLogout = () => {
+        logout(); // AuthContext'in logout fonksiyonunu kullan
+        navigate('/'); // Ana sayfaya yönlendir
+    };
+
+    // Diğer fonksiyonlar aynı kalır
     const handleSignUp = async () => {
         console.log('Email:', email);
         console.log('Password:', password);
@@ -102,9 +125,8 @@ export const Navbar = () => {
             return;
         }
     
-        // Şifrelerin eşleşip eşleşmediğini kontrol et
         if (password !== passwordRepeatChange) {
-            alert("Passwords doasdasd not match.");
+            alert("Passwords do not match.");
             setLoading(false);
             return;
         }
@@ -113,11 +135,12 @@ export const Navbar = () => {
             const response = await axios.post(`http://localhost:8080/api/auth/register`, {
                 email: email,
                 password: password,
-                rePassword: passwordRepeatChange, // Bu alanı eklemeyi unutma
-                name: nameAndSurname,
-                surname: nameAndSurname
+                rePassword: passwordRepeatChange,
+                name: "name",
+                surname: "surname",
+                userName: nameAndSurname
             });
-            alert("Signed up successfully");
+            alert("Signed up successfully "+JSON.stringify(response));
             closeModal();
         } catch (error) {
             console.log(error);
@@ -126,7 +149,6 @@ export const Navbar = () => {
             setLoading(false);
         }
     };
-    
 
     return (
         <div>
@@ -175,17 +197,35 @@ export const Navbar = () => {
                         <span className="search-icon"><FaSearch /></span>
                     </div>
 
-                    <button className="text-button">
-                        <span className="button-text"  onClick={closeLoginModalAndOpenSignInModal}>Register</span>
-                    </button>
-                    <button className="rounded-button" onClick={handleLoginClick}>
-                        <FaSignInAlt className="icon" />
-                        <span className="button-text">Login</span>
-                    </button>
+                    {isLoggedIn ? (
+                        // Kullanıcı giriş yapmışsa
+                        <>
+                            <div className="user-info">
+                                <FaUser className="icon" />
+                                <span className="username">{user.username || user.email}</span>
+                            </div>
+                            <button className="rounded-button" onClick={handleLogout}>
+                                <FaSignOutAlt className="icon" />
+                                <span className="button-text">Logout</span>
+                            </button>
+                        </>
+                    ) : (
+                        // Kullanıcı giriş yapmamışsa
+                        <>
+                            <button className="text-button">
+                                <span className="button-text" onClick={closeLoginModalAndOpenSignInModal}>Kayıt Ol</span>
+                            </button>
+                            <button className="rounded-button" onClick={handleLoginClick}>
+                                <FaSignInAlt className="icon" />
+                                <span className="button-text">Giriş</span>
+                            </button>
+                        </>
+                    )}
                 </ul>
             </nav>
             <div className='divider'></div>
 
+            {/* Login Modal */}
             {isLoginModalVisible && (
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ position: 'relative' }}>
@@ -202,8 +242,8 @@ export const Navbar = () => {
                                 type="text"
                                 placeholder="E-mail"
                                 className="modal-input"
-                                value={email} // State ile bağla
-                                onChange={handleEmailChange} // Değeri güncelle
+                                value={email}
+                                onChange={handleEmailChange}
                             />
                         </div>
                         <div className='textInputContainer'>
@@ -212,13 +252,16 @@ export const Navbar = () => {
                                 type="password"
                                 placeholder="Password"
                                 className="modal-input"
-                                value={password} // State ile bağla
-                                onChange={handlePasswordChange} // Değeri güncelle
+                                value={password}
+                                onChange={handlePasswordChange}
                             />
                         </div>
                         <div className='textInputContainer'>
-                            <button className="modal-button" onClick={handleLogin}><div className='buttonInside'>
-                            <p>Login</p><FaArrowRight></FaArrowRight></div></button> 
+                            <button className="modal-button" onClick={handleLogin}>
+                                <div className='buttonInside'>
+                                    <p>Login</p><FaArrowRight></FaArrowRight>
+                                </div>
+                            </button> 
                         </div>
 
                         <div className='orLoginPage'>
@@ -234,6 +277,8 @@ export const Navbar = () => {
                     </div>
                 </div>
             )}
+
+            {/* SignUp Modal */}
             {isSignUpModalVisible && (
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ position: 'relative' }}>
@@ -244,10 +289,10 @@ export const Navbar = () => {
 
                         <div className="dividerLoginPage"></div>
                         <div className='textInputContainer'>
-                            <p>User Name</p>
+                            <p>Username</p>
                             <input
                                 type="text"
-                                placeholder="Your name"
+                                placeholder="Username"
                                 className="modal-input"
                                 value={nameAndSurname} 
                                 onChange={handleNameAndSurnameChange} 
@@ -259,8 +304,8 @@ export const Navbar = () => {
                                 type="text"
                                 placeholder="E-mail"
                                 className="modal-input"
-                                value={email} // State ile bağla
-                                onChange={handleEmailChange} // Değeri güncelle
+                                value={email}
+                                onChange={handleEmailChange}
                             />
                         </div>
                         <div className='textInputContainer'>
@@ -269,8 +314,8 @@ export const Navbar = () => {
                                 type="password"
                                 placeholder="Password"
                                 className="modal-input"
-                                value={password} // State ile bağla
-                                onChange={handlePasswordChange} // Değeri güncelle
+                                value={password}
+                                onChange={handlePasswordChange}
                             />
                         </div>
                         <div className='textInputContainer'>
@@ -279,13 +324,16 @@ export const Navbar = () => {
                                 type="password"
                                 placeholder="Password-Repeat"
                                 className="modal-input"
-                                value={passwordRepeatChange} // State ile bağla
-                                onChange={handlePasswordRepeatChange} // Değeri güncelle
+                                value={passwordRepeatChange}
+                                onChange={handlePasswordRepeatChange}
                             />
                         </div>
                         <div className='textInputContainer'>
-                            <button className="modal-button" onClick={handleSignUp}><div className='buttonInside'>
-                            <p>Sign Up</p><FaArrowRight></FaArrowRight></div></button> 
+                            <button className="modal-button" onClick={handleSignUp}>
+                                <div className='buttonInside'>
+                                    <p>Sign Up</p><FaArrowRight></FaArrowRight>
+                                </div>
+                            </button> 
                         </div>
 
                         <div className='orLoginPage'>
