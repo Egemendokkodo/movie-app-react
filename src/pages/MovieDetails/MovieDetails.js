@@ -149,7 +149,7 @@ export const MovieDetails = () => {
                     </>
                 )}
             </div>
-            {movie && <VideoPlayer imageThumbnail={movie.movieImage} />}
+            {movie && <VideoPlayer imageThumbnail={movie.movieImage} movieId={movie.movieId}/>}
             {movie && (
                 <div className='movieDetailsPagePadding'>
 
