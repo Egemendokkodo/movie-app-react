@@ -38,6 +38,8 @@ export const MovieDetails = () => {
         if (comment) {
             console.log("comment yazılan : "+comment);
             console.log("switch value :"+switchValue)
+        }else{
+            alert("You cannot send an empty comment.")
         }
       
     }
