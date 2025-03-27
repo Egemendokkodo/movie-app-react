@@ -32,7 +32,15 @@ export const MovieDetails = () => {
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
-
+    
+    const handleSentComment =()=>{
+       
+        if (comment) {
+            console.log("comment yazılan : "+comment);
+            console.log("switch value :"+switchValue)
+        }
+      
+    }
     const fetchMovies = async () => {
         if (!movieId) {
             setError("Film ID'si bulunamadı");
@@ -235,7 +243,7 @@ export const MovieDetails = () => {
                                 <FaCommentDots color='#ef4444' size={24}></FaCommentDots>
                             </div>
                             <div className='sizedBoxH'></div>
-                            {isLoggedIn ? (<div className='commentContainer'>
+                            {isLoggedIn ? (<div className='commentContainer'> <div className='sizedBoxH3'></div>
                                 <input
                                     type="text"
                                     placeholder="Your thoughts"
@@ -254,13 +262,13 @@ export const MovieDetails = () => {
                                         <p className='containSpoilerText'>Contains Spoiler</p>
                                     </div>
                                     <div className='sendCommentBtn'>
-                                         <button className="rounded-button" onClick={()=>{}}>
+                                         <button className="rounded-button" onClick={handleSentComment}>
                                                                         
                                                                         <span className="button-text">Send Comment</span>
                                                                         <FaPaperPlane className="sendIcon" />
                                                                     </button>
                                     </div>
-                                </div>
+                                </div> <div className='sizedBoxH3'></div>
                             </div>) : (<div className='noLoginContainer'>
                                 <div className='spaceBetweenItems'></div>
                                 <FaExclamationCircle color='rgb(252 165 165 )' />
