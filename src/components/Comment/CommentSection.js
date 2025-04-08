@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Switch from '../../components/Switch/Switch'
 import { FaExclamationCircle, FaCommentDots, FaPaperPlane, FaUser, FaThumbsUp, FaThumbsDown, FaRegThumbsUp, FaRegThumbsDown, FaReply } from 'react-icons/fa';
 import '../Comment/CommentSection.css'
-export const CommentSection = ({ isLoggedIn, movieId }) => {
+export const CommentSection = ({ isLoggedIn, movieId, user }) => {
     const [switchValue, setSwitchValue] = useState(false);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState(null);
@@ -28,11 +28,40 @@ export const CommentSection = ({ isLoggedIn, movieId }) => {
         setComment(e.target.value);
     };
 
-    const handleSentComment = () => {
+    const handleSentComment = async () => {
 
         if (comment) {
             console.log("comment yazılan : " + comment);
             console.log("switch value :" + switchValue)
+            setLoading(true);
+        try {
+            const response = await axios.post(`http://localhost:8080/api/comments/addComment`,{
+                "username": user.username,
+                "content": comment,
+                "containsSpoiler": switchValue,
+                "movieId": movieId,
+                "parentId": null
+            }
+            );
+            console.log("yollanan veri"+{
+                "username": user.username,
+                "content": comment,
+                "containsSpoiler": switchValue,
+                "movieId": movieId,
+                "parentId": null
+            });
+            console.log("handleSentCommentresponse ::" + JSON.stringify(response));
+            if (response && response.data) {
+               alert("Successfully added your comment.")
+            } else {
+                setError("Cannot add comment");
+            }
+        } catch (error) {
+            console.error('ErrorCannot add comment:', error);
+            setError("Cannot add comment");
+        } finally {
+            setLoading(false);
+        }
         } else {
             alert("You cannot send an empty comment.")
         }

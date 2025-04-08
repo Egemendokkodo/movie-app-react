@@ -234,7 +234,7 @@ export const MovieDetails = () => {
                             <div className='sizedBoxH'></div>
                             <RelatedMoviesSlider tagList={movie.tags} maxLength={6} showChevrons={true} />
                             <div className='sizedBoxH'></div>
-                          <CommentSection isLoggedIn={isLoggedIn} movieId={movie.movieId}></CommentSection>
+                          <CommentSection isLoggedIn={isLoggedIn} movieId={movie.movieId} user={user}></CommentSection>
 
                         </div>
 
