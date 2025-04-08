@@ -54,6 +54,10 @@
       font-size: 24px; /* İkon boyutu */
     }
 
-    .slider-item{
+    .slider-item-related{
         margin-right:15px ;
+        flex: 0 0 auto; /* Esnemesini engelle */
+        padding: 0; /* Boşluk olmasın */
+       
+        box-sizing: border-box;
     }

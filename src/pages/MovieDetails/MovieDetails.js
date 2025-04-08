@@ -8,7 +8,8 @@ import { FaInfo, FaVolumeUp, FaImdb, FaExclamationCircle, FaEyeSlash, FaPlus, Fa
 import { VideoPlayer } from '../../components/VideoPlayer/VideoPlayer';
 import { Footer } from '../../components/Footer/Footer';
 import StarRating from '../../components/StarRating/StarRating'
-import Switch from '../../components/Switch/Switch'
+import { CommentSection } from '../../components/Comment/CommentSection';
+
 
 
 
@@ -22,27 +23,8 @@ export const MovieDetails = () => {
     const [error, setError] = useState(null);
     const [imdbRating, setImdbRating] = useState(null);
     const [voteCount, setVoteCount] = useState(null); // Oy sayısı için yeni state
-    const [comment, setComment] = useState('');
-    const [switchValue, setSwitchValue] = useState(false);
-
-    const handleSwitchToggle = () => {
-        setSwitchValue(!switchValue);
-    };
-
-    const handleCommentChange = (e) => {
-        setComment(e.target.value);
-    };
-
-    const handleSentComment = () => {
-
-        if (comment) {
-            console.log("comment yazılan : " + comment);
-            console.log("switch value :" + switchValue)
-        } else {
-            alert("You cannot send an empty comment.")
-        }
-
-    }
+    
+    
     const fetchMovies = async () => {
         if (!movieId) {
             setError("Film ID'si bulunamadı");
@@ -252,43 +234,7 @@ export const MovieDetails = () => {
                             <div className='sizedBoxH'></div>
                             <RelatedMoviesSlider tagList={movie.tags} maxLength={6} showChevrons={true} />
                             <div className='sizedBoxH'></div>
-                            <div className='relatedToContainer'>
-                                <p className='titleStyle2'>Comments (0)</p>
-                                <FaCommentDots color='#ef4444' size={24}></FaCommentDots>
-                            </div>
-                            <div className='sizedBoxH'></div>
-                            {isLoggedIn ? (<div className='commentContainer'> <div className='sizedBoxH3'></div>
-                                <input
-                                    type="text"
-                                    placeholder="Your thoughts"
-                                    className="modal-input"
-                                    value={comment}
-                                    onChange={handleCommentChange}
-                                />
-                                <div className='sizedBoxH3'></div>
-                                <div className='commentBottomContainer'>
-                                    <div className='switchContainer'>
-                                        <Switch
-                                            isOn={switchValue}
-                                            handleToggle={handleSwitchToggle}
-                                            onColor="#06D6A0"
-                                        />
-                                        <p className='containSpoilerText'>Contains Spoiler</p>
-                                    </div>
-                                    <div className='sendCommentBtn'>
-                                        <button className="rounded-button" onClick={handleSentComment}>
-
-                                            <span className="button-text">Send Comment</span>
-                                            <FaPaperPlane className="sendIcon" />
-                                        </button>
-                                    </div>
-                                </div> <div className='sizedBoxH3'></div>
-                            </div>) : (<div className='noLoginContainer'>
-                                <div className='spaceBetweenItems'></div>
-                                <FaExclamationCircle color='rgb(252 165 165 )' />
-                                <div className='spaceBetweenItems'></div>
-                                <p className='noLoginText'>Only registered users can comment.</p>
-                            </div>)}
+                          <CommentSection isLoggedIn={isLoggedIn} movieId={movie.movieId}></CommentSection>
 
                         </div>
 
@@ -342,6 +288,7 @@ export const MovieDetails = () => {
                             </div>
                             <div className='sizedBoxH2'></div>
                             <div className="sideBarContainer2"> <StarRating
+                            
                                 initialRating={0}
                                 readOnly={false}
                             /></div>

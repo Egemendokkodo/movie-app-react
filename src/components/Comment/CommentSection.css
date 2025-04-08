@@ -1,0 +1,85 @@
+.commentItem,
+.user-info-container,
+.comment-user-info,
+.hours-ago {
+    margin: 0;
+    padding: 0;
+
+}
+
+.commentItem {
+    background-color: #18181B;
+    border-radius: 12px;
+    padding: 20px;
+    width: 95%;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.user-info-container {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.hours-ago {
+    margin-left: 5px;
+    color: rgb(150, 148, 148);
+}
+
+.comment-text-style {
+    color: rgb(212 212 216);
+}
+
+.comment-user-info {
+    color: white;
+    font-weight: 500;
+}
+
+.comment-actions-container {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    height: 20px;
+}
+
+.sized-box-w {
+    width: 5px;
+}
+
+.replyContainer {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.replyCommentItem {
+    background-color: #18181B;
+    border-radius: 12px;
+    padding: 20px 20px 0 20px;
+    width: 95%;
+    align-items: center;
+
+}
+
+.repliesContainer {
+    align-items: center;
+}
+
+.reply-item-outer {
+    display: flex;
+    align-items: start;
+}
+.replyCommentItemDot {
+    background-color: #18181B;
+    border-radius: 12px;
+    padding: 20px 0px 0 0px;
+  
+    align-items: center;
+
+}
+.comment-text-style-hide-show{
+    color: rgb(212 212 216);
+    margin: 0;
+    padding: 0;
+}

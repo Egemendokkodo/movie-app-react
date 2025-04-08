@@ -69,7 +69,7 @@ export const RelatedMoviesSlider = ({ tagList, maxLength, showChevrons }) => {
       <div className="movies-row">
         {movies.slice(currentIndex, currentIndex + maxLength).map((movie, index) => (
           <div
-            className="slider-item"
+            className="slider-item-related"
             style={{ width: `${150 / maxLength}%` }}
             key={movie.id || index}
           >
