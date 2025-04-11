@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import applogo from '../../images/app-logo.png';
-import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes, FaArrowRight, FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes, FaArrowRight, FaSignOutAlt, FaUser, FaBolt,FaStar } from 'react-icons/fa';
 import axios from 'axios';
 import { useAuth } from '../../AuthContext/AuthContext';
 
@@ -15,6 +15,8 @@ export const Navbar = () => {
     const [nameAndSurname, setNameAndSurname] = useState('');
     const [password, setPassword] = useState('');
     const [passwordRepeatChange, setPasswordRepeatChange] = useState('');
+    const [searchText, setSearchText] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -31,7 +33,7 @@ export const Navbar = () => {
     const handleLoginClick = () => {
         setIsLoginModalVisible(true);
     };
-    
+
     const clearAllTextInputs = () => {
         setEmail('');
         setPassword('');
@@ -50,7 +52,7 @@ export const Navbar = () => {
         setisSignUpModalVisible(true);
         clearAllTextInputs();
     };
-    
+
     const closeSignInModalAndOpenLoginModal = () => {
         setIsLoginModalVisible(true);
         setisSignUpModalVisible(false);
@@ -60,41 +62,43 @@ export const Navbar = () => {
     const years = Array.from({ length: 2024 - 2018 + 1 }, (_, index) => 2018 + index).reverse();
 
     const handleEmailChange = (e) => {
-        setEmail(e.target.value); 
-    };
-    
-    const handleNameAndSurnameChange = (e) => {
-        setNameAndSurname(e.target.value); 
-    };
-    
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value); 
-    };
-    
-    const handlePasswordRepeatChange = (e) => {
-        setPasswordRepeatChange(e.target.value); 
+        setEmail(e.target.value);
     };
 
+    const handleNameAndSurnameChange = (e) => {
+        setNameAndSurname(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const handlePasswordRepeatChange = (e) => {
+        setPasswordRepeatChange(e.target.value);
+    };
+    const handleSearchInputTextChange = (e) => {
+        setSearchText(e.target.value);
+    };
     // Login fonksiyonunu güncelle
     const handleLogin = async () => {
         setLoading(true);
-    
+
         if (!email || !password) {
             alert("Lütfen tüm gerekli alanları doldurun.");
             setLoading(false);
             return;
         }
-    
+
         try {
             const response = await axios.post(`http://localhost:8080/api/auth/login`, {
                 email,
                 password
             });
-            
-            // Başarılı giriş durumunda kullanıcı verilerini kaydet
+
+
             if (response.data.success) {
-                login(response.data.response); // AuthContext'in login fonksiyonunu kullan
-                alert("Giriş başarılı");
+                login(response.data.response);
+                alert("Login Successful");
                 closeModal();
             }
         } catch (error) {
@@ -104,7 +108,7 @@ export const Navbar = () => {
             setLoading(false);
         }
     };
-    
+
     // Logout fonksiyonu ekle
     const handleLogout = () => {
         logout(); // AuthContext'in logout fonksiyonunu kullan
@@ -118,19 +122,19 @@ export const Navbar = () => {
         console.log("Re password:", passwordRepeatChange);
         console.log("User Name: ", nameAndSurname);
         setLoading(true);
-    
+
         if (!email || !password || !passwordRepeatChange || !nameAndSurname) {
             alert("Please enter all the required fields.");
             setLoading(false);
             return;
         }
-    
+
         if (password !== passwordRepeatChange) {
             alert("Passwords do not match.");
             setLoading(false);
             return;
         }
-    
+
         try {
             const response = await axios.post(`http://localhost:8080/api/auth/register`, {
                 email: email,
@@ -140,7 +144,7 @@ export const Navbar = () => {
                 surname: "surname",
                 userName: nameAndSurname
             });
-            alert("Signed up successfully "+JSON.stringify(response));
+            alert("Signed up successfully " + JSON.stringify(response));
             closeModal();
         } catch (error) {
             console.log(error);
@@ -149,6 +153,52 @@ export const Navbar = () => {
             setLoading(false);
         }
     };
+
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleSearchClick = () => {
+        setShowPopup(true);
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    };
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === "Escape") {
+                handleClosePopup();
+            }
+        };
+
+
+        window.addEventListener("keydown", handleKeyDown);
+
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
+ 
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            if (searchText.trim() !== '') {
+                axios.get("http://localhost:8080/api/movie/search?query=" + searchText)
+                    .then((response) => {
+                        setSearchResults(response.data.response.movies); // ✅ Bu doğru!
+                    })
+
+                    .catch((error) => {
+                        console.error("Search error: ", error);
+                        setSearchResults([]);
+                    });
+            } else {
+                setSearchResults([]);
+            }
+        }, 400); // 400ms debounce
+
+        return () => clearTimeout(delayDebounceFn); // debounce temizlik
+    }, [searchText]);
+
 
     return (
         <div>
@@ -192,13 +242,66 @@ export const Navbar = () => {
                         )}
                     </li>
 
-                    <div className="search-container">
-                        <input type="text" placeholder="Search..." className="search-input" />
+                    <div className="search-container" hidden={showPopup}>
+                        <input type="text" placeholder="Search..." className="search-input" onClick={handleSearchClick} />
                         <span className="search-icon"><FaSearch /></span>
                     </div>
 
+                    {showPopup && (
+                        <div className="search-popup" onClick={handleClosePopup}>
+                            <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+                                <div className="popup-search-wrapper">
+                                    <FaSearch className="popup-search-icon" />
+                                    <input
+                                        type="text"
+                                        className="popup-search-input"
+                                        placeholder="Search movie by name"
+                                        value={searchText}
+                                        onChange={handleSearchInputTextChange}
+                                    />
+                                    <div className="escButton" onClick={handleClosePopup}><p>ESC</p></div>
+                                </div>
+
+                                {searchText && <div className="searchResultText">
+                                    <FaSearch className="popup-search-icon2" size={14} />
+                                   <p>Search results for: {searchText}</p>
+                                </div>}
+
+                                <div className="search-results">
+                                    {searchResults.length > 0 ? (
+                                        <div>
+                                        {searchResults.map((movie) => (
+                                          <div key={movie.id} className='searchOuter'>
+                                            <div >
+                                              <div className='searchImageContainer'>
+                                                <img className='movieImageSearch' src={movie.movieImage} alt="Movie"></img>
+                                              </div>
+                                            </div>
+                                            <div className='sizedBoxWidthSearch'></div>
+                                            <div className='filmdetailsContainer'>
+                                            <div className='filmAttributes'>
+                                                <div className='movieDetailBoxSearch' ><p>{movie.movieReleaseYear}</p></div>
+                                                <div className='movieDetailBoxSearch' ><FaStar color='gold' ></FaStar> <p>{movie.movieDetails.websiteRating}</p></div>
+                                                <div className='movieDetailBoxSearch' ><p>Movie</p></div>
+                                            </div>
+                                            <p className='searchMovieName'>{movie.name}</p>
+                                            </div>
+                                          </div>
+                                        ))}
+                                      </div>
+                                      
+                                    ) : (
+                                        searchText && <p></p>
+                                    )}
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    )}
                     {isLoggedIn ? (
-                        // Kullanıcı giriş yapmışsa
+
                         <>
                             <div className="user-info">
                                 <FaUser className="icon" />
@@ -210,7 +313,7 @@ export const Navbar = () => {
                             </button>
                         </>
                     ) : (
-                        // Kullanıcı giriş yapmamışsa
+
                         <>
                             <button className="text-button">
                                 <span className="button-text" onClick={closeLoginModalAndOpenSignInModal}>Kayıt Ol</span>
@@ -241,7 +344,7 @@ export const Navbar = () => {
                             <input
                                 type="text"
                                 placeholder="E-mail"
-                                className="modal-input"
+                                className="modal-input-search"
                                 value={email}
                                 onChange={handleEmailChange}
                             />
@@ -251,7 +354,7 @@ export const Navbar = () => {
                             <input
                                 type="password"
                                 placeholder="Password"
-                                className="modal-input"
+                                className="modal-input-search"
                                 value={password}
                                 onChange={handlePasswordChange}
                             />
@@ -261,7 +364,7 @@ export const Navbar = () => {
                                 <div className='buttonInside'>
                                     <p>Login</p><FaArrowRight></FaArrowRight>
                                 </div>
-                            </button> 
+                            </button>
                         </div>
 
                         <div className='orLoginPage'>
@@ -293,9 +396,9 @@ export const Navbar = () => {
                             <input
                                 type="text"
                                 placeholder="Username"
-                                className="modal-input"
-                                value={nameAndSurname} 
-                                onChange={handleNameAndSurnameChange} 
+                                className="modal-input-search"
+                                value={nameAndSurname}
+                                onChange={handleNameAndSurnameChange}
                             />
                         </div>
                         <div className='textInputContainer'>
@@ -303,7 +406,7 @@ export const Navbar = () => {
                             <input
                                 type="text"
                                 placeholder="E-mail"
-                                className="modal-input"
+                                className="modal-input-search"
                                 value={email}
                                 onChange={handleEmailChange}
                             />
@@ -313,7 +416,7 @@ export const Navbar = () => {
                             <input
                                 type="password"
                                 placeholder="Password"
-                                className="modal-input"
+                                className="modal-input-search"
                                 value={password}
                                 onChange={handlePasswordChange}
                             />
@@ -323,7 +426,7 @@ export const Navbar = () => {
                             <input
                                 type="password"
                                 placeholder="Password-Repeat"
-                                className="modal-input"
+                                className="modal-input-search"
                                 value={passwordRepeatChange}
                                 onChange={handlePasswordRepeatChange}
                             />
@@ -333,7 +436,7 @@ export const Navbar = () => {
                                 <div className='buttonInside'>
                                     <p>Sign Up</p><FaArrowRight></FaArrowRight>
                                 </div>
-                            </button> 
+                            </button>
                         </div>
 
                         <div className='orLoginPage'>

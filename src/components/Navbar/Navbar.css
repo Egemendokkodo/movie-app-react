@@ -252,7 +252,7 @@ nav>ul {
 
 }
 
-.modal-input {
+.modal-input-search {
     padding: 10px;
     background-color: #3F3F46;
     color: white;
@@ -374,3 +374,160 @@ justify-content: space-evenly;
     color:white;
     cursor: pointer;
 }
+
+
+.search-popup {
+    position: fixed;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* arkaplanı karartır */
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 200px; /* popup'ın biraz aşağıdan başlaması için */
+    z-index: 9999;
+  }
+  
+  .popup-content {
+    background-color: #18181b;
+    width: 40%;
+    
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 80%; /* çok büyük ekranlarda taşmayı engeller */
+    max-height: 80%;
+    overflow: auto; /* içerik çok uzarsa scroll çıkar */
+
+  }
+  
+  .popup-search-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 0.5px solid rgba(109, 109, 109, 0.623);
+  }
+  
+  .popup-search-icon {
+    color: gray;
+    font-size: 20px; 
+    margin-right: 10px;
+  }
+  
+  .popup-search-input {
+    font-size: 18px; /* yazı büyüdü */
+    padding: 18px 0;  /* biraz daha yukarı-aşağı boşluk */
+    background-color: #18181b;
+    border: none;
+    color: white;
+    outline: none;
+    flex: 1;
+  }
+  .escButton{
+    border: 2px solid rgba(109, 109, 109, 0.322);
+    padding: 5px 10px 5px 10px  ;
+    border-radius: 20px;
+    display: inline-block; 
+  }
+  
+  .escButton p{
+    color: rgba(109, 109, 109, 0.712);
+    margin: 0; 
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .escButton:hover{
+    border: 2px solid rgba(109, 109, 109, 0.555);
+  }
+  .searchResultText {
+    display: inline-flex; /* inline-flex olunca sadece içerik kadar genişlik ve yükseklik olur */
+    align-items: center;
+    padding: 0 10px;
+   
+  }
+  
+  .popup-search-icon2 {
+    color: gray;
+    font-size: 12px;
+    margin-right: 10px;
+  }
+  
+  .searchResultText p {
+    color: gray;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-size: 14px;
+  }
+  .search-results{
+    padding: 0px 10px 5px 10px  ;
+  }
+  
+  .searchImageContainer { 
+    background-color: rgb(39 39 42);
+    padding: 5px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+   
+  }
+  
+  .movieImageSearch {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    margin: 0;
+  }
+  .sizedBoxWidthSearch{
+    width: 10px;
+  }
+  .searchOuter{
+    display: flex;
+    padding: 10px 0 0px 0;
+  }
+  .searchOuter:hover{
+    background-color: rgba(43, 43, 43, 0.226);
+    border-radius: 10px;
+  }
+  .searchMovieName{
+    color: white;
+    font-weight: 600;
+    margin: 0;
+  }
+  .filmAttributes{
+    display: flex;
+  }
+ .filmdetailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: start;
+  justify-content: space-between; /* This will push items to the top and bottom */
+  height: 100%; /* Ensure the container takes up available space */
+}
+
+  .movieDetailBoxSearch{
+    background-color: rgb(63 63 70 );
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    
+  
+    padding: 1px 5px 1px 5px;
+    /* İçeriğin etrafında boşluk */
+    margin-right: 5px;
+  }
+  .movieDetailBoxSearch p{
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+  }

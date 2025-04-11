@@ -6,18 +6,16 @@ import '../Comment/CommentSection.css'
 export const CommentSection = ({ isLoggedIn, movieId, user }) => {
     const [switchValue, setSwitchValue] = useState(false);
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState(null);
+    const [comments, setComments] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-
-
     const [visibleReplies, setVisibleReplies] = useState({});
 
     const toggleReplies = (commentId) => {
-      setVisibleReplies(prev => ({
-        ...prev,
-        [commentId]: !prev[commentId]
-      }));
+        setVisibleReplies(prev => ({
+            ...prev,
+            [commentId]: !prev[commentId]
+        }));
     };
 
     const handleSwitchToggle = () => {
@@ -29,77 +27,110 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
     };
 
     const handleSentComment = async () => {
-
         if (comment) {
-            console.log("comment yazılan : " + comment);
-            console.log("switch value :" + switchValue)
             setLoading(true);
-        try {
-            const response = await axios.post(`http://localhost:8080/api/comments/addComment`,{
-                "username": user.username,
-                "content": comment,
-                "containsSpoiler": switchValue,
-                "movieId": movieId,
-                "parentId": null
-            }
-            );
-            console.log("yollanan veri"+{
-                "username": user.username,
-                "content": comment,
-                "containsSpoiler": switchValue,
-                "movieId": movieId,
-                "parentId": null
-            });
-            console.log("handleSentCommentresponse ::" + JSON.stringify(response));
-            if (response && response.data) {
-               alert("Successfully added your comment.")
-            } else {
+            try {
+                const response = await axios.post(`http://localhost:8080/api/comments/addComment`, {
+                    username: user.username,
+                    content: comment,
+                    containsSpoiler: switchValue,
+                    movieId: movieId,
+                    parentId: null // Assuming this is for a main comment
+                });
+
+                if (response && response.data) {
+                    alert("Successfully added your comment.");
+                    setComment('');
+                    fetchComments();  // Refresh the comment list after posting a new comment
+                } else {
+                    setError("Cannot add comment");
+                }
+            } catch (error) {
+                console.error('Error adding comment:', error);
                 setError("Cannot add comment");
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error('ErrorCannot add comment:', error);
-            setError("Cannot add comment");
-        } finally {
-            setLoading(false);
-        }
         } else {
-            alert("You cannot send an empty comment.")
+            alert("You cannot send an empty comment.");
         }
+    };
 
-    }
+    const handleReplyComment = async (parentId, replyContent) => {
+        if (replyContent) {
+            setLoading(true);
+            try {
+                const response = await axios.post(`http://localhost:8080/api/comments/${parentId}/reply`, {
+                    username: user.username,
+                    content: replyContent,
+                    containsSpoiler: false,  // Default to false for replies
+                    movieId: movieId,
+                    parentId: parentId
+                });
 
+                if (response && response.data) {
+                    alert("Successfully added your reply.");
+                    fetchComments();  // Refresh after reply
+                } else {
+                    setError("Cannot add reply");
+                }
+            } catch (error) {
+                console.error('Error adding reply:', error);
+                setError("Cannot add reply");
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            alert("You cannot send an empty reply.");
+        }
+    };
+
+    const likeComment = async (commentId) => {
+        try {
+            await axios.post(`http://localhost:8080/api/comments/${commentId}/like`, null, {
+                params: { username: user.username }
+            });
+            fetchComments();  // Refresh after like
+        } catch (error) {
+            console.error('Error liking comment:', error);
+        }
+    };
+
+    const dislikeComment = async (commentId) => {
+        try {
+            await axios.post(`http://localhost:8080/api/comments/${commentId}/dislike`, null, {
+                params: { username: user.username }
+            });
+            fetchComments();  // Refresh after dislike
+        } catch (error) {
+            console.error('Error disliking comment:', error);
+        }
+    };
 
     const fetchComments = async () => {
-
-        if (!movieId) {
-
-            return;
-        }
-
         setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/comments/movie/${movieId}`);
-            console.log("commentresponse ::" + JSON.stringify(response));
             if (response && response.data) {
-                setComments(response.data)
-                console.log("comment data3131 :: " + JSON.stringify(response.data));
+                setComments(response.data);
             } else {
-                setError("Film bilgileri alınamadı");
+                setError("No comments found");
             }
         } catch (error) {
-            console.error('Error fetching movie detail:', error);
-            setError("Film detayları yüklenirken bir hata oluştu");
+            console.error('Error fetching comments:', error);
+            setError("Cannot fetch comments");
         } finally {
             setLoading(false);
         }
     };
+
     useEffect(() => {
         fetchComments();
     }, [movieId]);
+
     const formatTimeAgo = (createdAt) => {
         const now = new Date();
         const commentDate = new Date(createdAt);
-
         const diffInMilliseconds = now - commentDate;
         const diffInSeconds = diffInMilliseconds / 1000;
         const diffInMinutes = diffInSeconds / 60;
@@ -108,32 +139,13 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
         const diffInMonths = diffInDays / 30;
         const diffInYears = diffInDays / 365;
 
-        // 1. Eğer 365 günden fazla ise yıllık gösterim
-        if (diffInYears >= 1) {
-            return `${Math.floor(diffInYears)} years ago`;
-        }
-        // 2. Eğer 30 günden fazla ise aylık gösterim
-        if (diffInMonths >= 1) {
-            return `${Math.floor(diffInMonths)} months ago`;
-        }
-        // 3. Eğer 7 günden fazla ise haftalık gösterim
-        if (diffInDays >= 7) {
-            return `${Math.floor(diffInDays / 7)} weeks ago`;
-        }
-        // 4. Eğer 7 günden azsa günlük gösterim
-        if (diffInDays >= 1) {
-            return `${Math.floor(diffInDays)} days ago`;
-        }
-
-        // 5. Eğer 1 günden azsa saatlik veya dakikalık gösterim
-        if (diffInHours >= 1) {
-            return `${Math.floor(diffInHours)} hours ago`;
-        }
-        if (diffInMinutes >= 1) {
-            return `${Math.floor(diffInMinutes)} minutes ago`;
-        }
-
-        return 'Just now';  // Çok kısa süre önce
+        if (diffInYears >= 1) return `${Math.floor(diffInYears)} years ago`;
+        if (diffInMonths >= 1) return `${Math.floor(diffInMonths)} months ago`;
+        if (diffInDays >= 7) return `${Math.floor(diffInDays / 7)} weeks ago`;
+        if (diffInDays >= 1) return `${Math.floor(diffInDays)} days ago`;
+        if (diffInHours >= 1) return `${Math.floor(diffInHours)} hours ago`;
+        if (diffInMinutes >= 1) return `${Math.floor(diffInMinutes)} minutes ago`;
+        return 'Just now';
     };
     const totalCommentCount = (comments ?? []).reduce((acc, comment) => {
         return acc + 1 + (comment?.replies?.length || 0);
@@ -184,27 +196,33 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
 
 
             {comments?.map((comment) => (
-        <div key={comment.id} className="commentItem">
-          <div className='user-info-container'>
-            <FaUser className="icon" />
-            <p className='comment-user-info'>{comment?.username}</p>
-            <p className='hours-ago'>• {formatTimeAgo(comment?.createdAt)}</p>
-          </div>
-          <p className='comment-text-style'>{comment?.content}</p>
+           <div key={comment.id} className="commentItem">
+           <div className='user-info-container'>
+               <FaUser className="icon" />
+               <p className='comment-user-info'>{comment.username}</p>
+               <p className='hours-ago'>• {formatTimeAgo(comment.createdAt)}</p>
+           </div>
+           <p className='comment-text-style'>{comment.content}</p>
 
-          <div className='comment-actions-container'>
-            <FaRegThumbsUp color='white' cursor="pointer" size={14} />
-            <p className='comment-text-style'>{comment?.likeCount}</p>
-            <div className='sized-box-w'></div>
-            <FaRegThumbsDown color='white' cursor="pointer" size={14} />
-            <p className='comment-text-style'>{comment?.dislikeCount}</p>
-            <div className='sized-box-w'></div>
-            <div className='replyContainer'>
-              <FaReply color='white' size={14} />
-              <div className='sized-box-w'></div>
-              <p className='comment-text-style'>Reply</p>
-            </div>
-          </div>
+           <div className='comment-actions-container'>
+               <FaRegThumbsUp
+                   color='white'
+                   cursor="pointer"
+                   size={14}
+                   onClick={() => likeComment(comment.id)}
+               />
+               <p className='comment-text-style'>{comment.likeCount}</p>
+               <div className='sized-box-w'></div>
+               <FaRegThumbsDown
+                   color='white'
+                   cursor="pointer"
+                   size={14}
+                   onClick={() => dislikeComment(comment.id)}
+               />
+               <p className='comment-text-style'>{comment.dislikeCount}</p>
+               <div className='sized-box-w'></div>
+               <FaReply color="white" cursor="pointer" size={14} onClick={() => toggleReplies(comment.id)} />
+           </div>
 
         
           {comment?.replies?.length > 0 && (
@@ -255,14 +273,3 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
 }
 
 export default CommentSection;
-
-
-/* {comment.replies.length > 0 && (
-    <div className="replies">
-        {comment.replies.map(reply => (
-            <div key={reply.id} className="replyItem">
-                <p><strong>{reply.username}</strong> {reply.content}</p>
-            </div>
-        ))}
-    </div>
-)} */
