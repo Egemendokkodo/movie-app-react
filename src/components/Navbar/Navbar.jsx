@@ -301,7 +301,7 @@ export const Navbar = () => {
 
                     )}
                     {isLoggedIn ? (
-
+ 
                         <>
                             <div className="user-info">
                                 <FaUser className="icon" />
