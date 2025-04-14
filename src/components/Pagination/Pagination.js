@@ -20,7 +20,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                 onClick={() => onPageChange(Math.max(0, currentPage - 1))} 
                 style={{ display: currentPage === 0 ? 'none' : 'inline-block' }} // 1. sayfada görünmez
             >
-                Önceki
+                Previous
             </button>
 
             {pageNumbers().map((page) => (
@@ -37,7 +37,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                 onClick={() => onPageChange(Math.min(totalPages - 1, currentPage + 1))} 
                 disabled={currentPage >= totalPages - 1}
             >
-                Sonraki
+                Next
             </button>
 
             {/* Eğer son sayfadaysak, "İlk Sayfa" butonunu göster */}
@@ -45,13 +45,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                 <button 
                     onClick={() => onPageChange(0)} // İlk sayfaya git
                 >
-                    İlk Sayfa
+                    First Page
                 </button>
             ) : (
                 <button 
                     onClick={() => onPageChange(totalPages - 1)} // Son sayfaya git
                 >
-                    Son Sayfa
+                  Last Page
                 </button>
             )}
         </div>
