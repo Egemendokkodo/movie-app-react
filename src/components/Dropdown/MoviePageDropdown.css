@@ -1,0 +1,44 @@
+
+.dropdown{
+    background-color: #18181b;
+    border-radius: 6px;
+    padding: 10px 10px 10px 10px;
+}
+
+.dropdownTitle{
+    color: white;
+    margin: 0;
+    font-weight: 600;
+    margin-left: 5px;
+}
+.dropdownRow{
+    display: flex;
+    align-items: center;
+    
+}
+.dropdownColumn{
+    display: block;
+}
+.dropdownSelectedTextStyle{
+    margin: 0;
+    margin-top: 5px;
+    color: #a1a1aa46;
+}
+.dropdownOuterRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* chevron'u dikeyde ortalamak için */
+    width: 100%;
+  }
+  
+  .chevronContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+    margin-left: 70px;
+  } 
+  .allDropdownRows{
+    display:flex;
+    gap: 10px;
+  }

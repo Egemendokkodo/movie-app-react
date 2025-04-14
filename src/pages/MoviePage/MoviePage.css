@@ -1,0 +1,20 @@
+.moviePagePadding{
+    padding:16px 14px 16px 14px;
+    
+}
+.pageTitle{
+    color: white;
+    margin: 0;
+    font-weight: 600;
+}
+
+.dropdown:hover{
+    background-color: #18181b88;
+    border:0.1px solid #a1a1aa46
+}
+.sizedBoxHeight{
+    height: 14px;
+}
+.dropdownRows{
+    display: flex;
+}
