@@ -5,7 +5,7 @@ import applogo from '../../images/app-logo.png';
 import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes, FaArrowRight, FaSignOutAlt, FaUser, FaBolt,FaStar } from 'react-icons/fa';
 import axios from 'axios';
 import { useAuth } from '../../AuthContext/AuthContext';
-
+import OnClickMovieCard from '../MovieCard/OnClickMovieCard';
 export const Navbar = () => {
     const { user, isLoggedIn, login, logout } = useAuth(); // AuthContext'ten değerleri alın
     const [isYearDropdownVisible, setIsYearDropdownVisible] = useState(false);
@@ -199,6 +199,11 @@ export const Navbar = () => {
         return () => clearTimeout(delayDebounceFn); // debounce temizlik
     }, [searchText]);
 
+    const handleSearchItemClick = (movieId,name) => {
+        handleClosePopup();
+        const movieCard = new OnClickMovieCard(movieId, navigate,name);
+        movieCard.goToMovieDetails(); // 
+      };
 
     return (
         <div>
@@ -271,7 +276,7 @@ export const Navbar = () => {
                                     {searchResults.length > 0 ? (
                                         <div>
                                         {searchResults.map((movie) => (
-                                          <div key={movie.id} className='searchOuter'>
+                                          <div key={movie.id} className='searchOuter' onClick={() => handleSearchItemClick(movie.movieId, movie.name)}>
                                             <div >
                                               <div className='searchImageContainer'>
                                                 <img className='movieImageSearch' src={movie.movieImage} alt="Movie"></img>
