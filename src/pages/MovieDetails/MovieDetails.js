@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate,useParams } from 'react-router-dom';
 import '../MovieDetails/MovieDetails.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -17,7 +17,7 @@ export const MovieDetails = () => {
     const { user, isLoggedIn } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const movieId = location.state?.movieId;
+    const { movieId } = useParams();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

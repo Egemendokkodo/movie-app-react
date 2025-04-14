@@ -6,9 +6,8 @@ class OnClickMovieCard {
     }
   
     goToMovieDetails() {
-        this.navigate(`/movies/${this.movieName}`, { 
-          state: { movieId: this.movieId } 
-        }); 
+      this.navigate(`/movies/${this.movieId}/${this.movieName}`);
+
       }
   }
   
