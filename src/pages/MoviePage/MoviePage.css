@@ -15,6 +15,13 @@
 .sizedBoxHeight{
     height: 14px;
 }
-.dropdownRows{
+.dropdownRows {
     display: flex;
-}
+    gap: 10px;
+    flex-wrap: wrap; 
+  }
+  .content_box_movie_robot_page{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 15px; 
+  }

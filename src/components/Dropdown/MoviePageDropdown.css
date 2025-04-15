@@ -1,8 +1,8 @@
-
 .dropdown{
     background-color: #18181b;
     border-radius: 6px;
     padding: 10px 10px 10px 10px;
+    cursor: pointer;
 }
 
 .dropdownTitle{
@@ -14,7 +14,6 @@
 .dropdownRow{
     display: flex;
     align-items: center;
-    
 }
 .dropdownColumn{
     display: block;
@@ -22,23 +21,78 @@
 .dropdownSelectedTextStyle{
     margin: 0;
     margin-top: 5px;
-    color: #a1a1aa46;
+    color: #a1a1aa;
+    font-weight: 500;
 }
 .dropdownOuterRow {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* chevron'u dikeyde ortalamak için */
+    align-items: center;
     width: 100%;
-  }
+}
   
-  .chevronContainer {
+.chevronContainer {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     flex: 1;
-    margin-left: 70px;
-  } 
-  .allDropdownRows{
-    display:flex;
-    gap: 10px;
-  }
+}
+
+.allDropdownRows {
+    flex: 1 1 180px;
+    min-width: 180px;
+    position: relative;
+}
+
+.dropdownMenu {
+    background-color: #2c2c2f;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 5px;
+    border-radius: 6px;
+    padding: 8px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 10;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dropdownMenuItem {
+    padding: 12px 16px;
+    color: #d4d4d8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dropdownMenuItem:hover {
+    background-color: #3a3a3d;
+}
+
+.dropdownMenuItem.selected {
+    background-color: white;
+    color: #3a3a3d;
+}
+
+.dropdownMenuItem.loading {
+    justify-content: center;
+    cursor: default;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Seçili öğe için arkaplan rengi */
+.selected {
+    background-color: white;
+    color: #18181b;
+}

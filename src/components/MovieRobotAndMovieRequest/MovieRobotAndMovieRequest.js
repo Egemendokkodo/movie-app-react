@@ -7,6 +7,7 @@ const MovieRobotAndMovieRequest = () => {
 
   return (
     <div style={containerStyle}>
+      <a href='movies'>
       <button
         style={isHoveredRobot ? {...buttonStyleRobot, ...hoverStyleRobot} : buttonStyleRobot}
         onMouseEnter={() => setIsHoveredRobot(true)}
@@ -17,6 +18,7 @@ const MovieRobotAndMovieRequest = () => {
           <span>Movie Robot</span>
         </div>
       </button>
+      </a>
       <button
         style={isHoveredMovieRequest ? {...buttonStyleMovieRequest, ...hoverStyleMovieRequest} : buttonStyleMovieRequest}
         onMouseEnter={() => setIsHoveredMovieRequest(true)}
