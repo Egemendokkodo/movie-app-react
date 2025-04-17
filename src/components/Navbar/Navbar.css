@@ -42,7 +42,7 @@ li p {
 }
 
 li a:hover,
-li p:hover {
+.by-year li p:hover {
     color: gray;
 }
 
@@ -373,6 +373,8 @@ justify-content: space-evenly;
 .user-info{
     color:white;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 
@@ -531,3 +533,48 @@ justify-content: space-evenly;
     padding: 0;
     font-size: 12px;
   }
+
+
+
+
+  .profile-dropdown {
+    position: absolute;
+    top: 130%;
+    left: 0;
+    background-color: #18181b;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+    width: 150px;
+    display: block;
+    color: white;
+}
+.profile-link{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.profileContainer {
+    position: relative;
+    cursor: pointer;
+    display: block;
+}
+
+.profile-link:hover{
+    background-color: black;
+}
+.profile-link p{
+    font-size: 12px;
+}
+.profileChevron{
+    margin-left: 10px;
+   
+}
+.signOutIcon{
+    
+}

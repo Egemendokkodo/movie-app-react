@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import applogo from '../../images/app-logo.png';
-import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes, FaArrowRight, FaSignOutAlt, FaUser, FaBolt,FaStar } from 'react-icons/fa';
+import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes, FaArrowRight, FaSignOutAlt, FaUser, FaBolt, FaStar,FaCog,FaEye } from 'react-icons/fa';
 import axios from 'axios';
 import { useAuth } from '../../AuthContext/AuthContext';
 import OnClickMovieCard from '../MovieCard/OnClickMovieCard';
 export const Navbar = () => {
     const { user, isLoggedIn, login, logout } = useAuth(); // AuthContext'ten değerleri alın
     const [isYearDropdownVisible, setIsYearDropdownVisible] = useState(false);
+    const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
     const [isSignUpModalVisible, setisSignUpModalVisible] = useState(false);
     const [email, setEmail] = useState('');
@@ -20,7 +21,13 @@ export const Navbar = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    // Mevcut fonksiyonlar aynı kalır
+
+
+
+    const toggleProfileDropdown = () => {
+        setIsProfileDropdownVisible(!isProfileDropdownVisible);
+    };
+
     const toggleYearDropdown = () => {
         setIsYearDropdownVisible(!isYearDropdownVisible);
     };
@@ -178,7 +185,7 @@ export const Navbar = () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
     }, []);
- 
+
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (searchText.trim() !== '') {
@@ -199,11 +206,11 @@ export const Navbar = () => {
         return () => clearTimeout(delayDebounceFn); // debounce temizlik
     }, [searchText]);
 
-    const handleSearchItemClick = (movieId,name) => {
+    const handleSearchItemClick = (movieId, name) => {
         handleClosePopup();
-        const movieCard = new OnClickMovieCard(movieId, navigate,name);
+        const movieCard = new OnClickMovieCard(movieId, navigate, name);
         movieCard.goToMovieDetails(); // 
-      };
+    };
 
     return (
         <div>
@@ -269,32 +276,32 @@ export const Navbar = () => {
 
                                 {searchText && <div className="searchResultText">
                                     <FaSearch className="popup-search-icon2" size={14} />
-                                   <p>Search results for: {searchText}</p>
+                                    <p>Search results for: {searchText}</p>
                                 </div>}
 
                                 <div className="search-results">
                                     {searchResults.length > 0 ? (
                                         <div>
-                                        {searchResults.map((movie) => (
-                                          <div key={movie.id} className='searchOuter' onClick={() => handleSearchItemClick(movie.movieId, movie.name)}>
-                                            <div >
-                                              <div className='searchImageContainer'>
-                                                <img className='movieImageSearch' src={movie.movieImage} alt="Movie"></img>
-                                              </div>
-                                            </div>
-                                            <div className='sizedBoxWidthSearch'></div>
-                                            <div className='filmdetailsContainer'>
-                                            <div className='filmAttributes'>
-                                                <div className='movieDetailBoxSearch' ><p>{movie.movieReleaseYear}</p></div>
-                                                <div className='movieDetailBoxSearch' ><FaStar color='gold' ></FaStar> <p>{movie.movieDetails.websiteRating}</p></div>
-                                                <div className='movieDetailBoxSearch' ><p>Movie</p></div>
-                                            </div>
-                                            <p className='searchMovieName'>{movie.name}</p>
-                                            </div>
-                                          </div>
-                                        ))}
-                                      </div>
-                                      
+                                            {searchResults.map((movie) => (
+                                                <div key={movie.id} className='searchOuter' onClick={() => handleSearchItemClick(movie.movieId, movie.name)}>
+                                                    <div >
+                                                        <div className='searchImageContainer'>
+                                                            <img className='movieImageSearch' src={movie.movieImage} alt="Movie"></img>
+                                                        </div>
+                                                    </div>
+                                                    <div className='sizedBoxWidthSearch'></div>
+                                                    <div className='filmdetailsContainer'>
+                                                        <div className='filmAttributes'>
+                                                            <div className='movieDetailBoxSearch' ><p>{movie.movieReleaseYear}</p></div>
+                                                            <div className='movieDetailBoxSearch' ><FaStar color='gold' ></FaStar> <p>{movie.movieDetails.websiteRating}</p></div>
+                                                            <div className='movieDetailBoxSearch' ><p>Movie</p></div>
+                                                        </div>
+                                                        <p className='searchMovieName'>{movie.name}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
                                     ) : (
                                         searchText && <p></p>
                                     )}
@@ -306,17 +313,33 @@ export const Navbar = () => {
 
                     )}
                     {isLoggedIn ? (
- 
-                        <>
+
+                        <li onClick={toggleProfileDropdown} className="profileContainer">
                             <div className="user-info">
                                 <FaUser className="icon" />
                                 <span className="username">{user.username || user.email}</span>
+                                <div className='profileChevron'>{isProfileDropdownVisible ? <FaChevronUp /> : <FaChevronDown />}</div>
                             </div>
-                            <button className="rounded-button" onClick={handleLogout}>
-                                <FaSignOutAlt className="icon" />
-                                <span className="button-text">Logout</span>
-                            </button>
-                        </>
+                            {isProfileDropdownVisible && (
+                                <ul className="profile-dropdown">
+                                    <li >
+                                        <span className="profile-link">
+                                            <FaCog></FaCog>
+                                            <p>Profile Settings</p>
+                                        </span>
+                                        <span className="profile-link">
+                                            <FaEye></FaEye>
+                                            <p>Watched Movies</p>
+                                        </span>
+
+                                        <span className="profile-link"  onClick={handleLogout}>
+                                        <FaSignOutAlt className="signOutIcon" />
+                                            <p>Sign Out</p>
+                                        </span>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
                     ) : (
 
                         <>
@@ -460,3 +483,8 @@ export const Navbar = () => {
         </div>
     );
 };
+
+{/* <button className="rounded-button" onClick={handleLogout}>
+                                <FaSignOutAlt className="icon" />
+                                <span className="button-text">Logout</span>
+                            </button> */}
