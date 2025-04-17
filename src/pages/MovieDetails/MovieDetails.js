@@ -323,13 +323,13 @@ export const MovieDetails = () => {
 
 
 
-                                <div className='spaceBetweenItems'></div>
+                                {/* <div className='spaceBetweenItems'></div>
                                 <div className='sideBarContainer'>
                                     <FaPlus color='white' size={24}></FaPlus>
                                     <div className='sizedBoxH2'></div>
                                     <p className='titleStyle2'>Follow</p>
 
-                                </div>
+                                </div> */}
                             </div>
                             <div className='sizedBoxH'></div>
                             <div className='websiteRatingTitle'>

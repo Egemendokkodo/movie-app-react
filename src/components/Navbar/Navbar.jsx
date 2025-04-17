@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import applogo from '../../images/app-logo.png';
-import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes, FaArrowRight, FaSignOutAlt, FaUser, FaBolt, FaStar,FaCog,FaEye } from 'react-icons/fa';
+import { FaSignInAlt, FaSearch, FaHome, FaChevronDown, FaChevronUp, FaTimes, FaArrowRight, FaSignOutAlt, FaUser, FaBolt, FaStar, FaCog, FaEye } from 'react-icons/fa';
 import axios from 'axios';
 import { useAuth } from '../../AuthContext/AuthContext';
 import OnClickMovieCard from '../MovieCard/OnClickMovieCard';
 export const Navbar = () => {
     const { user, isLoggedIn, login, logout } = useAuth(); // AuthContext'ten değerleri alın
     const [isYearDropdownVisible, setIsYearDropdownVisible] = useState(false);
-    
+
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
     const [isSignUpModalVisible, setisSignUpModalVisible] = useState(false);
     const [email, setEmail] = useState('');
@@ -25,33 +25,33 @@ export const Navbar = () => {
 
     const dropdownRef = useRef(null);
     const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
-    
+
     const toggleProfileDropdown = () => {
         setIsProfileDropdownVisible(prev => !prev);
     };
-    
+
     const profileDropdownRef = useRef(null);
     const yearDropdownRef = useRef(null);
-    
+
     useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
-          setIsProfileDropdownVisible(false);
-        }
-    
-        if (yearDropdownRef.current && !yearDropdownRef.current.contains(event.target)) {
-          setIsYearDropdownVisible(false);
-        }
-      };
-    
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
+        const handleClickOutside = (event) => {
+            if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
+                setIsProfileDropdownVisible(false);
+            }
+
+            if (yearDropdownRef.current && !yearDropdownRef.current.contains(event.target)) {
+                setIsYearDropdownVisible(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
     const toggleYearDropdown = () => {
         setIsYearDropdownVisible(!isYearDropdownVisible);
-        
+
     };
 
     const handleYearClick = (year, apiUrl) => {
@@ -336,43 +336,43 @@ export const Navbar = () => {
 
                     )}
                     {isLoggedIn ? (
-    <li onClick={toggleProfileDropdown} ref={profileDropdownRef} className="profileContainer">
-        <div className="user-info">
-            <FaUser className="icon" />
-            <span className="username">{user.username || user.email}</span>
-            <div className='profileChevron'>{isProfileDropdownVisible ? <FaChevronUp /> : <FaChevronDown />}</div>
-        </div>
-        {isProfileDropdownVisible && (
-            <ul className="profile-dropdown">
-                <li >
-                    <span className="profile-link">
-                        <FaCog />
-                        <p>Profile Settings</p>
-                    </span>
-                    <span className="profile-link">
-                        <FaEye />
-                        <p>Watched Movies</p>
-                    </span>
+                        <li onClick={toggleProfileDropdown} ref={profileDropdownRef} className="profileContainer">
+                            <div className="user-info">
+                                <FaUser className="icon" />
+                                <span className="username">{user.username || user.email}</span>
+                                <div className='profileChevron'>{isProfileDropdownVisible ? <FaChevronUp /> : <FaChevronDown />}</div>
+                            </div>
+                            {isProfileDropdownVisible && (
+                                <ul className="profile-dropdown">
+                                    <li >
+                                        <span className="profile-link">
+                                            <FaCog />
+                                            <p>Profile Settings</p>
+                                        </span>
+                                        <span className="profile-link">
+                                            <FaEye />
+                                            <p>Watched Movies</p>
+                                        </span>
 
-                    <span className="profile-link" onClick={handleLogout}>
-                        <FaSignOutAlt className="signOutIcon" />
-                        <p>Sign Out</p>
-                    </span>
-                </li>
-            </ul>
-        )}
-    </li>
-) : (
-    <>
-        <button className="text-button">
-            <span className="button-text" onClick={closeLoginModalAndOpenSignInModal}>Kayıt Ol</span>
-        </button>
-        <button className="rounded-button" onClick={handleLoginClick}>
-            <FaSignInAlt className="icon" />
-            <span className="button-text">Giriş</span>
-        </button>
-    </>
-)}
+                                        <span className="profile-link" onClick={handleLogout}>
+                                            <FaSignOutAlt className="signOutIcon" />
+                                            <p>Sign Out</p>
+                                        </span>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+                    ) : (
+                        <>
+                            <button className="text-button">
+                                <span className="button-text" onClick={closeLoginModalAndOpenSignInModal}>Kayıt Ol</span>
+                            </button>
+                            <button className="rounded-button" onClick={handleLoginClick}>
+                                <FaSignInAlt className="icon" />
+                                <span className="button-text">Giriş</span>
+                            </button>
+                        </>
+                    )}
 
                 </ul>
             </nav>
