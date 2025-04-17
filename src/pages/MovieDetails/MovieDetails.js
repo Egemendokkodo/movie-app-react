@@ -1,10 +1,10 @@
-import { useLocation, useNavigate,useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import '../MovieDetails/MovieDetails.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../AuthContext/AuthContext';
 import RelatedMoviesSlider from '../../components/RelatedMoviesSlider/RelatedMoviesSlider';
-import { FaInfo, FaVolumeUp, FaImdb, FaExclamationCircle, FaEyeSlash, FaPlus, FaStar, FaFire, FaBolt, FaCommentDots, FaPaperPlane } from 'react-icons/fa';
+import { FaInfo, FaVolumeUp, FaImdb, FaExclamationCircle, FaEyeSlash, FaPlus, FaStar, FaFire, FaBolt, FaCommentDots, FaPaperPlane,FaEye } from 'react-icons/fa';
 import { VideoPlayer } from '../../components/VideoPlayer/VideoPlayer';
 import { Footer } from '../../components/Footer/Footer';
 import StarRating from '../../components/StarRating/StarRating'
@@ -23,8 +23,8 @@ export const MovieDetails = () => {
     const [error, setError] = useState(null);
     const [imdbRating, setImdbRating] = useState(null);
     const [voteCount, setVoteCount] = useState(null); // Oy sayısı için yeni state
-    
-    
+
+
     const fetchMovies = async () => {
         if (!movieId) {
             setError("Film ID'si bulunamadı");
@@ -115,6 +115,64 @@ export const MovieDetails = () => {
         console.log(`Film puanı: ${newRating}/10`);
     };
 
+    const [hasUserWatchedThisMovieBefore, setHasUserWatchedThisMovieBefore] = useState(false);
+
+    useEffect(() => {
+        hasUserWatchedThisMovieBeforeApi();
+    }, [hasUserWatchedThisMovieBefore]);
+
+    const hasUserWatchedThisMovieBeforeApi = async () => {
+        try {
+
+
+            const response = await axios.get(
+                `http://localhost:8080/api/auth/is-user-watched?userId=${user.id}&movieId=` + movieId,
+
+            );
+
+            if (response.data) {
+                console.log('response data:::: ' + JSON.stringify(response.data.response));
+                setHasUserWatchedThisMovieBefore(response.data.response);
+            } else {
+                console.log('hasUserWatchedThisMovieBeforeApi error');
+                setHasUserWatchedThisMovieBefore(false);
+            }
+        } catch (error) {
+            console.error('hasUserWatchedThisMovieBeforeApi error: ', error);
+
+        }
+    }
+    const handleWatchedClick = async (movieId, user) => {
+        console.log("already watched tıklandı" + JSON.stringify(user.id));
+        if (!isLoggedIn) {
+            alert("You must login first.")
+        } else {
+            // api call
+            try {
+
+                if (!hasUserWatchedThisMovieBefore) {
+                    const response = await axios.post(
+                        `http://localhost:8080/api/auth/add-to-watchlist`,
+                        {
+                            "userId": user.id,
+                            "movie": movie
+                        }
+                    );
+                    console.log("ADD TO WATCHLIST:::" + JSON.stringify(response));
+                    setHasUserWatchedThisMovieBefore(true)
+                } else {
+                    const response = await axios.delete(
+                        `http://localhost:8080/api/auth/remove-from-watched?userId=${user.id}&movieId=` + movieId,
+
+                    );
+                    console.log("REMOVE FROM WATCHLIST:::" + JSON.stringify(response));
+                    setHasUserWatchedThisMovieBefore(false)
+                }
+            } catch (error) {
+                console.log("handleWatchedClick ERROR ::" + error);
+            }
+        }
+    }
     return (
         <div>
             <div className='movieDetailsPagePadding'>
@@ -175,30 +233,30 @@ export const MovieDetails = () => {
                                     <p className='descriptionText'>{movie.movieDetails.description}</p>
 
                                     <div className='column'>
-                                    <div className='outerImdb'>
-    <div className='imdbContainer'>
-        <div className='imdbIcon'>
-            <FaImdb size={52} color="#f5c518" />
-        </div>
-        <div className='imdbRatingContainer'>
-            <p className='imdbTitle'>IMDb</p>
-            <p className='imdbRating'>
-                {loading ? 'Yükleniyor...' : imdbRating !== null ? Number(imdbRating).toFixed(1) : 'N/A'}
-                {voteCount !== null && voteCount > 0 && <span className='voteCount'> ({voteCount} votes)</span>}
-            </p>
-        </div>
-    </div>
-    
-    <div className='trailerButton' onClick={() => window.open(movie.movieDetails.trailer, '_blank')}>
-        <div className="containerTrailer">
-            <div className="circle-image-container">
-                <img src={movie.movieImage} alt="Yuvarlak Resim" className="circle-image" />
-                <div className="play-icon"></div>
-            </div>
-            <p className='titleStyle2'>Trailer</p>
-        </div>
-    </div>
-</div>
+                                        <div className='outerImdb'>
+                                            <div className='imdbContainer'>
+                                                <div className='imdbIcon'>
+                                                    <FaImdb size={52} color="#f5c518" />
+                                                </div>
+                                                <div className='imdbRatingContainer'>
+                                                    <p className='imdbTitle'>IMDb</p>
+                                                    <p className='imdbRating'>
+                                                        {loading ? 'Yükleniyor...' : imdbRating !== null ? Number(imdbRating).toFixed(1) : 'N/A'}
+                                                        {voteCount !== null && voteCount > 0 && <span className='voteCount'> ({voteCount} votes)</span>}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div className='trailerButton' onClick={() => window.open(movie.movieDetails.trailer, '_blank')}>
+                                                <div className="containerTrailer">
+                                                    <div className="circle-image-container">
+                                                        <img src={movie.movieImage} alt="Yuvarlak Resim" className="circle-image" />
+                                                        <div className="play-icon"></div>
+                                                    </div>
+                                                    <p className='titleStyle2'>Trailer</p>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
                                         <div className='moreMovieDetailsContainer'>
@@ -234,7 +292,7 @@ export const MovieDetails = () => {
                             <div className='sizedBoxH'></div>
                             <RelatedMoviesSlider tagList={movie.tags} maxLength={6} showChevrons={true} />
                             <div className='sizedBoxH'></div>
-                          <CommentSection isLoggedIn={isLoggedIn} movieId={movie.movieId} user={user}></CommentSection>
+                            <CommentSection isLoggedIn={isLoggedIn} movieId={movie.movieId} user={user}></CommentSection>
 
                         </div>
 
@@ -243,12 +301,28 @@ export const MovieDetails = () => {
                             <div className='sizedBoxH'></div>
                             <div className='sidebarButtonRow'>
 
-                                <div className='sideBarContainer'>
-                                    <FaEyeSlash color='white' size={24}></FaEyeSlash>
-                                    <div className='sizedBoxH2'></div>
-                                    <p className='titleStyle2'>Not Watched</p>
-
+                                <div
+                                    className='sideBarContainer'
+                                    onClick={() => handleWatchedClick(movieId, user)}
+                                >
+                                    {hasUserWatchedThisMovieBefore ? (
+                                        <>
+                                            <FaEye color='lightgreen' size={24} />
+                                            <div className='sizedBoxH2'></div>
+                                            <p className='titleStyle2'>Seen Before</p>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <FaEyeSlash color='white' size={24} />
+                                            <div className='sizedBoxH2'></div>
+                                            <p className='titleStyle2'>Not Watched</p>
+                                        </>
+                                    )}
                                 </div>
+
+
+
+
                                 <div className='spaceBetweenItems'></div>
                                 <div className='sideBarContainer'>
                                     <FaPlus color='white' size={24}></FaPlus>
@@ -288,7 +362,7 @@ export const MovieDetails = () => {
                             </div>
                             <div className='sizedBoxH2'></div>
                             <div className="sideBarContainer2"> <StarRating
-                            
+
                                 initialRating={0}
                                 readOnly={false}
                             /></div>
