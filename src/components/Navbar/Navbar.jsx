@@ -59,6 +59,9 @@ export const Navbar = () => {
         const title = `${year} Movies`;
         navigate(`/discover`, { state: { title, apiUrl } });
     };
+    const handleWatchedMoviesClick =()=>{
+        navigate(`/watched-movies`,);
+    }
 
     const handleLoginClick = () => {
         setIsLoginModalVisible(true);
@@ -349,7 +352,7 @@ export const Navbar = () => {
                                             <FaCog />
                                             <p>Profile Settings</p>
                                         </span>
-                                        <span className="profile-link">
+                                        <span className="profile-link" onClick={handleWatchedMoviesClick}>
                                             <FaEye />
                                             <p>Watched Movies</p>
                                         </span>
