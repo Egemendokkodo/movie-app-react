@@ -142,12 +142,12 @@ export const MovieDetails = () => {
 
         }
     }
-    const handleWatchedClick = async (movieId, user) => {
-        console.log("already watched tıklandı" + JSON.stringify(user.id));
-        if (!isLoggedIn) {
+    const handleWatchedClick = async (movieId, user=null) => {
+      
+        if (!isLoggedIn || user==null) {
             alert("You must login first.")
         } else {
-            // api call
+            
             try {
 
                 if (!hasUserWatchedThisMovieBefore) {
