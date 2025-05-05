@@ -1,0 +1,12 @@
+.watched-movies-page-title{
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+.movie-containers{
+    padding-top: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+    margin-bottom: 15px;
+}
