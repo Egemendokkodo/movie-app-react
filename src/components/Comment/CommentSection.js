@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Switch from '../../components/Switch/Switch'
 import { FaExclamationCircle, FaCommentDots, FaPaperPlane, FaUser, FaThumbsUp, FaThumbsDown, FaRegThumbsUp, FaRegThumbsDown, FaReply } from 'react-icons/fa';
 import '../Comment/CommentSection.css'
+
 export const CommentSection = ({ isLoggedIn, movieId, user }) => {
     const [switchValue, setSwitchValue] = useState(false);
     const [comment, setComment] = useState('');
@@ -10,6 +11,20 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [visibleReplies, setVisibleReplies] = useState({});
+    const [visibleSpoilers, setVisibleSpoilers] = useState({});
+    const [visibleReplySpoilers, setVisibleReplySpoilers] = useState({});
+    // New state to track which comment has reply input visible
+    const [activeReplyId, setActiveReplyId] = useState(null);
+    // State for reply input content and spoiler toggle
+    const [replyContent, setReplyContent] = useState('');
+    const [replySpoilerValue, setReplySpoilerValue] = useState(false);
+
+    const toggleReplySpoiler = (replyId) => {
+        setVisibleReplySpoilers(prev => ({
+            ...prev,
+            [replyId]: !prev[replyId]
+        }));
+    };
 
     const toggleReplies = (commentId) => {
         setVisibleReplies(prev => ({
@@ -24,6 +39,29 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
+    };
+
+    const handleReplyContentChange = (e) => {
+        setReplyContent(e.target.value);
+    };
+
+    const handleReplySpoilerToggle = () => {
+        setReplySpoilerValue(!replySpoilerValue);
+    };
+
+    // Toggle reply input visibility for a specific comment
+    const toggleReplyInput = (commentId) => {
+        if (activeReplyId === commentId) {
+            // If clicking the active reply, close it
+            setActiveReplyId(null);
+            setReplyContent('');
+            setReplySpoilerValue(false);
+        } else {
+            // Otherwise open this one and reset input
+            setActiveReplyId(commentId);
+            setReplyContent('');
+            setReplySpoilerValue(false);
+        }
     };
 
     const handleSentComment = async () => {
@@ -56,20 +94,23 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
         }
     };
 
-    const handleReplyComment = async (parentId, replyContent) => {
+    const handleSendReply = async (parentId) => {
         if (replyContent) {
             setLoading(true);
             try {
                 const response = await axios.post(`http://localhost:8080/api/comments/${parentId}/reply`, {
                     username: user.username,
                     content: replyContent,
-                    containsSpoiler: false,  // Default to false for replies
+                    containsSpoiler: replySpoilerValue,
                     movieId: movieId,
                     parentId: parentId
                 });
 
                 if (response && response.data) {
                     alert("Successfully added your reply.");
+                    setReplyContent('');
+                    setActiveReplyId(null); // Close reply input after sending
+                    setReplySpoilerValue(false);
                     fetchComments();  // Refresh after reply
                 } else {
                     setError("Cannot add reply");
@@ -147,11 +188,18 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
         if (diffInMinutes >= 1) return `${Math.floor(diffInMinutes)} minutes ago`;
         return 'Just now';
     };
+    
     const totalCommentCount = (comments ?? []).reduce((acc, comment) => {
         return acc + 1 + (comment?.replies?.length || 0);
-      }, 0);
-      
-      
+    }, 0);
+
+    const toggleSpoiler = (commentId) => {
+        setVisibleSpoilers(prev => ({
+            ...prev,
+            [commentId]: !prev[commentId]
+        }));
+    };
+    
     return (
         <div className='commentSectionOuter'>
             <div className='relatedToContainer'>
@@ -159,115 +207,213 @@ export const CommentSection = ({ isLoggedIn, movieId, user }) => {
                 <FaCommentDots color='#ef4444' size={24}></FaCommentDots>
             </div>
             <div className='sizedBoxH'></div>
-            {isLoggedIn ? (<div className='commentContainer'> <div className='sizedBoxH3'></div>
-                <input
-                    type="text"
-                    placeholder="Your thoughts"
-                    className="modal-input"
-                    value={comment}
-                    onChange={handleCommentChange}
-                />
-                <div className='sizedBoxH3'></div>
-                <div className='commentBottomContainer'>
-                    <div className='switchContainer'>
-                        <Switch
-                            isOn={switchValue}
-                            handleToggle={handleSwitchToggle}
-                            onColor="#06D6A0"
-                        />
-                        <p className='containSpoilerText'>Contains Spoiler</p>
-                    </div>
-                    <div className='sendCommentBtn'>
-                        <button className="rounded-button" onClick={handleSentComment}>
-
-                            <span className="button-text">Send Comment</span>
-                            <FaPaperPlane className="sendIcon" />
-                        </button>
-                    </div>
-                </div> <div className='sizedBoxH3'></div>
-
-
-            </div>) : (<div className='noLoginContainer'>
-                <div className='spaceBetweenItems'></div>
-                <FaExclamationCircle color='rgb(252 165 165 )' />
-                <div className='spaceBetweenItems'></div>
-                <p className='noLoginText'>Only registered users can comment.</p>
-            </div>)}
-
+            {isLoggedIn ? (
+                <div className='commentContainer'> 
+                    <div className='sizedBoxH3'></div>
+                    <input
+                        type="text"
+                        placeholder="Your thoughts"
+                        className="modal-input"
+                        value={comment}
+                        onChange={handleCommentChange}
+                    />
+                    <div className='sizedBoxH3'></div>
+                    <div className='commentBottomContainer'>
+                        <div className='switchContainer'>
+                            <Switch
+                                isOn={switchValue}
+                                handleToggle={handleSwitchToggle}
+                                onColor="#06D6A0"
+                            />
+                            <p className='containSpoilerText'>Contains Spoiler</p>
+                        </div>
+                        <div className='sendCommentBtn'>
+                            <button className="rounded-button" onClick={handleSentComment}>
+                                <span className="button-text">Send Comment</span>
+                                <FaPaperPlane className="sendIcon" />
+                            </button>
+                        </div>
+                    </div> 
+                    <div className='sizedBoxH3'></div>
+                </div>
+            ) : (
+                <div className='noLoginContainer'>
+                    <div className='spaceBetweenItems'></div>
+                    <FaExclamationCircle color='rgb(252 165 165 )' />
+                    <div className='spaceBetweenItems'></div>
+                    <p className='noLoginText'>Only registered users can comment.</p>
+                </div>
+            )}
 
             {comments?.map((comment) => (
-           <div key={comment.id} className="commentItem">
-           <div className='user-info-container'>
-               <FaUser className="icon" />
-               <p className='comment-user-info'>{comment.username}</p>
-               <p className='hours-ago'>• {formatTimeAgo(comment.createdAt)}</p>
-           </div>
-           <p className='comment-text-style'>{comment.content}</p>
-
-           <div className='comment-actions-container'>
-               <FaRegThumbsUp
-                   color='white'
-                   cursor="pointer"
-                   size={14}
-                   onClick={() => likeComment(comment.id)}
-               />
-               <p className='comment-text-style'>{comment.likeCount}</p>
-               <div className='sized-box-w'></div>
-               <FaRegThumbsDown
-                   color='white'
-                   cursor="pointer"
-                   size={14}
-                   onClick={() => dislikeComment(comment.id)}
-               />
-               <p className='comment-text-style'>{comment.dislikeCount}</p>
-               <div className='sized-box-w'></div>
-               <FaReply color="white" cursor="pointer" size={14} onClick={() => toggleReplies(comment.id)} />
-           </div>
-
-        
-          {comment?.replies?.length > 0 && (
-            <p
-              className='comment-text-style-hide-show'
-              style={{ cursor: 'pointer', marginTop: '10px', fontWeight: 500, }}
-              onClick={() => toggleReplies(comment.id)}
-            >
-              {visibleReplies[comment.id] ? 'Hide replies' : `Show replies (${comment.replies.length})`}
-            </p>
-          )}
-
-          
-          {visibleReplies[comment.id] && comment.replies?.length > 0 && (
-            <div className='repliesContainer'>
-              {comment.replies.map((reply) => (
-                <div className='reply-item-outer' key={reply.id}>
-                  <div className="replyCommentItemDot"><p className='comment-user-info'>•</p></div>
-                  <div className="replyCommentItem">
+                <div key={comment.id} className="commentItem">
                     <div className='user-info-container'>
-                      <FaUser className="icon" />
-                      <p className='comment-user-info'>{reply?.username}</p>
-                      <p className='hours-ago'>• {formatTimeAgo(reply?.createdAt)}</p>
+                        <FaUser className="icon" />
+                        <p className='comment-user-info'>{comment.username}</p>
+                        <p className='hours-ago'>• {formatTimeAgo(comment.createdAt)}</p>
                     </div>
-                    <p className='comment-text-style'>{reply?.content}</p>
+
+                    {!comment.containsSpoiler ? (
+                        <p className='comment-text-style'>{comment.content}</p>
+                    ) : (
+                        <div>
+                            {!visibleSpoilers[comment.id] ? (
+                                <div className='spoiler-container' onClick={() => toggleSpoiler(comment.id)}>
+                                    <strong className='comment-spoiler-title-style'>
+                                        This comment contains spoilers!
+                                    </strong>
+                                    <p className='comment-spoiler-subtitle-style'>
+                                        Click to see the comment.
+                                    </p>
+                                </div>
+                            ) : (
+                                <div className='revealed-spoiler'>
+                                    <p className='comment-text-style'>{comment.content}</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     <div className='comment-actions-container'>
-                      <FaRegThumbsUp color='white' cursor="pointer" size={14} />
-                      <p className='comment-text-style'>{reply?.likeCount}</p>
-                      <div className='sized-box-w'></div>
-                      <FaRegThumbsDown color='white' cursor="pointer" size={14} />
-                      <p className='comment-text-style'>{reply?.dislikeCount}</p>
-                      <div className='sized-box-w'></div>
+                        <FaRegThumbsUp
+                            color='white'
+                            cursor="pointer"
+                            size={14}
+                            onClick={() => likeComment(comment.id)}
+                        />
+                        <p className='comment-text-style'>{comment.likeCount}</p>
+                        <div className='sized-box-w'></div>
+                        <FaRegThumbsDown
+                            color='white'
+                            cursor="pointer"
+                            size={14}
+                            onClick={() => dislikeComment(comment.id)}
+                        />
+                        <p className='comment-text-style'>{comment.dislikeCount}</p>
+                        <div className='sized-box-w'></div>
+                        <FaReply 
+                            color="white" 
+                            cursor="pointer" 
+                            size={14} 
+                            onClick={() => isLoggedIn && toggleReplyInput(comment.id)} 
+                        />
+                        <p 
+                            className='reply-text' 
+                            style={{ cursor: isLoggedIn ? 'pointer' : 'default' }}
+                            onClick={() => isLoggedIn && toggleReplyInput(comment.id)}
+                        >
+                            Reply
+                        </p>
                     </div>
-                  </div>
+
+                    {/* Reply input section - only visible for the active comment */}
+                    {isLoggedIn && activeReplyId === comment.id && (
+                        <div>
+                            <div className='sizedBoxH3'></div>
+                            <div style={{ position: 'relative' }}>
+                                <input
+                                    type="text"
+                                    placeholder="Write your reply..."
+                                    className="modal-input reply-input"
+                                    value={replyContent}
+                                    onChange={handleReplyContentChange}
+                                />
+                                <div style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+                                    <button 
+                                        className="rounded-button" 
+                                        onClick={() => handleSendReply(comment.id)}
+                                    >
+                                        <span className="button-text">Send Reply</span>
+                                        <FaPaperPlane className="sendIcon" />
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div className='commentBottomContainer'>
+                                <div></div>
+                                <div className='switchContainer'>
+                                    <Switch
+                                        isOn={replySpoilerValue}
+                                        handleToggle={handleReplySpoilerToggle}
+                                        onColor="#06D6A0"
+                                    />
+                                    <p className='containSpoilerText'>Contains Spoiler</p>
+                                </div>
+                            </div>
+                          
+                        </div>
+                    )}
+
+                    {comment?.replies?.length > 0 && (
+                        <p
+                            className='comment-text-style-hide-show'
+                            style={{ cursor: 'pointer', marginTop: '10px', fontWeight: 500, }}
+                            onClick={() => toggleReplies(comment.id)}
+                        >
+                            {visibleReplies[comment.id] ? 'Hide replies' : `Show replies (${comment.replies.length})`}
+                        </p>
+                    )}
+
+                    {visibleReplies[comment.id] && comment.replies?.length > 0 && (
+                        <div className='repliesContainer'>
+                            {comment.replies.map((reply) => (
+                                <div className='reply-item-outer' key={reply.id}>
+                                    <div className="replyCommentItemDot"><p className='comment-user-info'>•</p></div>
+                                    <div className="replyCommentItem">
+                                        <div className='user-info-container'>
+                                            <FaUser className="icon" />
+                                            <p className='comment-user-info'>{reply?.username}</p>
+                                            <p className='hours-ago'>• {formatTimeAgo(reply?.createdAt)}</p>
+                                        </div>
+
+                                        {!reply.containsSpoiler ? (
+                                            <p className='comment-text-style'>{reply?.content}</p>
+                                        ) : (
+                                            <div>
+                                                {!visibleReplySpoilers[reply.id] ? (
+                                                    <div
+                                                        className='spoiler-container reply-spoiler'
+                                                        onClick={() => toggleReplySpoiler(reply.id)}
+                                                    >
+                                                        <strong className='comment-spoiler-title-style'>
+                                                            This reply contains spoilers!
+                                                        </strong>
+                                                        <p className='comment-spoiler-subtitle-style'>
+                                                            Click to see the reply.
+                                                        </p>
+                                                    </div>
+                                                ) : (
+                                                    <div className='revealed-spoiler'>
+                                                        <p className='comment-text-style'>{reply?.content}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        <div className='comment-actions-container'>
+                                            <FaRegThumbsUp 
+                                                color='white' 
+                                                cursor="pointer" 
+                                                size={14} 
+                                                onClick={() => likeComment(reply.id)}
+                                            />
+                                            <p className='comment-text-style'>{reply?.likeCount}</p>
+                                            <div className='sized-box-w'></div>
+                                            <FaRegThumbsDown 
+                                                color='white' 
+                                                cursor="pointer" 
+                                                size={14} 
+                                                onClick={() => dislikeComment(reply.id)}
+                                            />
+                                            <p className='comment-text-style'>{reply?.dislikeCount}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-
-
-
-
+            ))}
         </div>
     );
 }

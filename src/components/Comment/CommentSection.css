@@ -83,3 +83,70 @@
     margin: 0;
     padding: 0;
 }
+.comment-spoiler-title-style {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .comment-spoiler-subtitle-style {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  .spoiler-container {
+    /* Gerçek Glassmorphism efekti */
+    background: #27272a66;  /* Koyu, saydam arka plan */
+    backdrop-filter: blur(12px);         /* Arka plan bulanıklığı */
+    -webkit-backdrop-filter: blur(12px); /* Safari desteği */
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* İnce parlak kenar */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25); /* Belirgin gölge */
+    
+    /* Layout */
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  .spoiler-container:hover {
+    background: #27272a66;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+  }
+  .reply-text{
+    color: rgb(150, 148, 148);
+    margin-left: 3px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  /* Add these styles to your CommentSection.css file */
+
+.replyInputContainer {
+    margin-left: 20px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+  }
+  
+  .reply-input {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+  }
+  
+
+  
+  /* Additional responsive styles for smaller screens */
+  @media (max-width: 768px) {
+    .replyInputContainer {
+      margin-left: 10px;
+    }
+  }
