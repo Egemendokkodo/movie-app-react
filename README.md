@@ -8,9 +8,11 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" width="50" height="50"/>
 </p>
 
-<p align="center">
- ⚠️ <strong>Important:</strong> This is a Frontend for a Full Stack project. To install and run, please check <a href="https://github.com/Egemendokkodo/movie_app_backend_spring_postgresql">this project's backend repository</a> first.
-</p>
+<h2 align="center">
+ ⚠️ <strong>Important:</strong> This is a Frontend for a Full Stack project. To install and run this project properly, please check <a href="https://github.com/Egemendokkodo/movie_app_backend_spring_postgresql">this project's backend repository</a> first.
+  <br></br></h2>
+</h2>
+
 
 
 
