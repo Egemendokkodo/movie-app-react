@@ -34,7 +34,7 @@
 This project is  a Frontend of a fullstack project. 
 
 <p>
-  This project is a <strong>React-based UI clone</strong> of the popular movie streaming website <em>HDFilmCehennemi</em>. It was built solely for <strong>educational and personal learning purposes</strong>, with no intention of distributing or linking to copyrighted content.
+  This project is a <strong>React-based UI clone</strong> for a movie streaming website. It was built solely for <strong>educational and personal learning purposes</strong>, with no intention of distributing or linking to copyrighted content.
 </p>
 
 <p>
