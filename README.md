@@ -62,6 +62,7 @@ This project is  a Frontend of a fullstack project.
 * Satisfying and Modern UI
 * A collection of very nice UX features like hover inspection on movie, featured movies, sliders etc..
 * Detailed movie search. With this option, you can cherry-pick the movie you desire.
+* <strong>Admin Dashboard!</strong>
 
 ## Screenshots
 ![8](https://github.com/user-attachments/assets/c01e14df-0e29-4a76-9005-41e6ab679bee)
