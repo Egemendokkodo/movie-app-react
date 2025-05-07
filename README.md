@@ -48,7 +48,7 @@ This project is  a Frontend of a fullstack project.
 </ul>
 
 <p>
-  This clone focuses purely on the <strong>frontend experience</strong>, simulating the look and feel of a real movie streaming site — without any backend or streaming functionality.
+  This clone focuses purely on the <strong>frontend experience</strong>, simulating the look and feel of a real movie streaming site — without streaming functionality.
 </p>
 
 <blockquote>
