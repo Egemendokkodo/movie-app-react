@@ -21,7 +21,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table of Contents
 
-- [Introduction](#introduction) 
+- [Introduction](#introduction)
+- [Important Note](#important-note) 
 - [Features](#features)
 - [Screenshots](#screenshots)
 
@@ -55,6 +56,46 @@ This project is  a Frontend of a fullstack project.
   ⚠️ <strong>Disclaimer:</strong> This is a UI-only project. It does not host, stream, or promote any pirated or copyrighted content.
 </blockquote>
 
+## Important Note
+In one part of my code, I used the TMDB API. I will share it with you directly without changing the API key, but in case the API key becomes invalid later, I will explain here how you can get your own TMDB API key so that you don't encounter errors in my code.
+<h2>📌 Get Your Own TMDB API Key</h2>
+
+<p>
+  To display IMDb ratings in the Movie Details page, this project uses 
+  <strong>The Movie Database (TMDB)</strong> API. You need to obtain your own API key for it to work.
+</p>
+
+<p><strong>🛠️ File to modify:</strong><br>
+<code>src/pages/MovieDetails/MovieDetails.js</code></p>
+
+<p><strong>🔍 Search for the function:</strong></p>
+<pre><code>const fetchImdbRating = async (movieName) => {</code></pre>
+
+<p>Replace the existing <code>Authorization</code> header token with your own TMDB Bearer Token by following the steps below:</p>
+
+<h3>🔑 How to Get Your TMDB API Key</h3>
+<ol>
+  <li>Go to the <a href="https://developer.themoviedb.org/docs/authentication" target="_blank">TMDB Developer Site</a>.</li>
+  <li>Log in or create a free account.</li>
+  <li>Click your profile picture → <strong>Settings</strong> → <strong>API</strong>.</li>
+  <li>Scroll to <strong>API Key (v4 auth)</strong> and generate a Bearer Token.</li>
+  <li>Copy the Bearer Token.</li>
+</ol>
+
+<p><strong>✍️ Example usage in your code:</strong></p>
+<pre>
+<code>
+headers: {
+  accept: 'application/json',
+  Authorization: 'Bearer YOUR_API_KEY_HERE'
+}
+</code>
+</pre>
+
+<blockquote>
+  ⚠️ <strong>Important:</strong> Never share your API key publicly or commit it to version control (like GitHub). 
+  Use environment variables or secrets when deploying to production.
+</blockquote>
 
 ## Features
 
